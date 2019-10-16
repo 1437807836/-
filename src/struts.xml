@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+ <!-- 开启使用开发模式，详细错误提示 -->
+    <constant name="struts.devMode" value="false" />
+    <!-- 将对象交给spring管理 -->
+    <constant name="struts.objectFactory" value="spring" />
+    <!-- 指定资源编码类型 -->
+    <constant name="struts.i18n.encoding" value="UTF-8" /> 
+	<!-- 指定每次请求到达，重新加载资源文件 -->
+    <constant name="struts.i18n.reload" value="false" />
+    <!-- 指定每次配置文件更改后，自动重新加载 -->
+    <constant name="struts.configuration.xml.reload" value="false" />
+    <!-- 默认后缀名 -->
+<!--     <constant name="struts.action.extension" value="do,action,jhtml,," /> -->
+	<!-- Struts Annotation -->
+<!--     <constant name="actionPackages" value="com.test1"/> -->
+
+	<!-- 	    定义全局package   -->
+	<package name="default" extends="struts-default">  
+	
+		<interceptors>  
+		
+	    	<interceptor-stack name="defStack">  
+	    	<interceptor-ref name="defaultStack"></interceptor-ref>  
+<!-- 			把自己的拦截器添加到定义的拦截器栈里面    -->
+	   		<interceptor-ref name="sessionNull"></interceptor-ref> 		   		 			  		
+	        </interceptor-stack>
+	          	      
+	         	   
+<!-- 		定义自己的拦截器    -->
+	  	<interceptor name="sessionNull" class="com.yxbx.action.SessionInterceptorAction" /> 
+  	
+
+	  	</interceptors>  
+	  	
+	  	
+	  	
+<!-- 		调用拦截器    -->
+	 	<default-interceptor-ref name="defStack" />  
+	 	
+<!-- 	定义全局结果集    -->
+	<!--  	<global-results>  
+	 		<result name="eeeee" type="redirectAction">/all_api.jsp  
+	    		<param name="actionName">./login</param>  
+	    		<param name="issession">1</param> 
+	        </result>    
+	   	</global-results>   -->
+	 </package>  
+ 	 
+		 <package name="newFileAction" namespace="/" extends="struts-default">
+   
+  <action name="downFile" class="newFileAction" method="downFile">
+   <result name="success" type="stream"> 
+    <param name="contentType">application/octet-stream;charset=ISO8859-1</param>
+   <!-- inputName 流对象名 —— 比如这里写inputStream，它就会自动去找Action中的getInputStream方法。 -->
+   <param name="inputName">inputStream</param>
+   <!-- contentDisposition 使用经过转码的文件名作为下载文件名 —— 默认格式是attachment;filename="${fileName}"，将调用该Action中的getFileName方法。 -->
+   <param name="contentDisposition">attachment;filename=${filename}</param>
+   <!-- bufferSize 下载文件的缓冲大小 -->
+   <param name="bufferSize">4096</param>
+   </result>
+   </action>
+ </package>
+		
+
+
+    <!-- Struts Annotation -->
+    <constant name="actionPackages" value="com.yxbx.action"/>
+</struts>    

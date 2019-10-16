@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title>保险公司管理</title>
+		<style>
+			.layui-select-s{
+				width: 200px;
+				height: 38px;
+				padding-left: 10px;
+				border-color: #e6e6e6;
+			}
+		</style>
+		
+	</head>
+	<style type="text/css">
+        .my-skin .layui-layer-btn a {
+     	  background-color: #84c101;
+	      border: 1px solid #84c101;
+	      color: #FFF;
+             }
+
+        }
+       
+    </style>
+	<body class="layui-view-body">
+		<div class="layui-content">
+			<div class="layui-row layui-col-space20">
+				<div class="layui-row">
+					<div class="layui-card">
+						<div class="layui-card-body">
+							<div class="form-box">
+								<div class="layui-form layui-form-item">
+									<div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">保险公司:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select id="teams234" name="sex">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">渠道:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="tabChannelName">
+													<option value=""></option>
+													<option value="1">传统</option>
+													<option value="2">非传统</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">使用性质:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="tabNature">
+													<option value=""></option>
+													<option value="1">非运营客车</option>
+													<option value="2">运营客车</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">是否已审核:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="tabExamineAndVerify">
+													<option value=""></option>
+													<option value="1">是</option>
+													<option value="2">否</option>
+													<option value="3">未通过</option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">生效日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test1">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test2">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">审核日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text"  class="layui-input" id="test3">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test4">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">提交日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text"   class="layui-input" id="test5">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test6">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-col-md5 layui-col-md-offset7">
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>全选</button>
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>零选</button>
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>审批政策</button>
+												<button id='upl' class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>批量导入</button>
+												<button id="new" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button>
+												<!--<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#x1006;</i>删除</button>-->
+												<button id="seach" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<table id="demo" lay-filter="test"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="uploadList" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<button type="button" class="layui-btn" id="test1">
+				  <i class="layui-icon">&#xe67c;</i>选择文件
+				</button>
+			</div>
+		</div>
+		<div id="newAdd" class="layui-fluid" style="display: none;">
+		    <div class="layui-row layui-col-space10" style="margin-top: 1px;border: 1px solid #DEDEDE;">
+		    	<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">代理人:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="AgentSelect" class="layui-select-s">
+							<option value=""></option>
+							
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">保险公司:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="insuranceSelect" class="layui-select-s">
+							<option value=""></option>
+							
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">渠道:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="channelNameSelect" class="layui-select-s">
+						    <option value=""></option>
+							<option value="1">传统</option>
+							<option value="2">非传统</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">使用性质:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="natureSelect" class="layui-select-s">
+							<option value=""></option>
+							<option value="1">非运营客车</option>
+							<option value="2">运营客车</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">是否续保:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="isSuccessiveSelect" class="layui-select-s">
+					    	<option value=""></option>
+							<option value="1">是</option>
+							<option value="2">否</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">失效时间:</div>
+					<div class="layui-input-inline" style="width: 140px;">
+						<input type="text" class="layui-input" id="test20" >
+						<i  class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+					</div>
+				</div>
+				<div class="layui-col-md12">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">核定载质量:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<select name="sex" id="qualitySelect" class="layui-select-s">
+					    	<option value=""></option>
+							<option value="1">2吨以下</option>
+							<option value="2">5吨以下</option>
+							<option value="3">10吨以下</option>
+								<option value="4">15吨以下</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">商业险收入利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" id="syxs" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">交强险收入利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" id="jqxs" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">商业险支出利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" id="syxc" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">交强险支出利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text"  id="jqxc" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">商业险开票利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" id="syxk" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">交强险开票利率:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" id="jqxk" autocomplete="off" class="layui-input">
+						<i style="position: absolute;top:10px;right: -12px;">%</i>
+					</div>
+				</div>
+				<div class="layui-col-md12">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 120px;">备注:</div>
+					<div class="layui-input-block">
+				        <textarea name="desc"  id="bz" placeholder="" class="layui-textarea"></textarea>
+				    </div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">审核</a>
+		</script>
+		<script src="../assets/layui.all.js"></script>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script>
+		function renderForm(){
+	
+  layui.use('form', function(){
+   var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
+   form.render();
+  });
+ }
+ 															
+     function  bd(data){
+     var select = document.getElementById("teams234");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabInsurerName,data[i].id));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+    function  bd1(data){
+     var select = document.getElementById("AgentSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabAgentName,data[i].tabAgentId));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+      function  bd2(data){
+     var select = document.getElementById("insuranceSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabInsurerName,data[i].id));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+    
+    
+    
+				$.ajax({
+								url: '/yxbx/queryInsurance',
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':100000000,
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log("kkk",data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+										
+												var se=data.data;	
+												if(se!=null){
+												  bd(se);
+												}																							                                        
+                                              
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+							
+			function bSelect(url,params,type){
+				
+				$.ajax({
+								url: url,
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':params,
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+										
+												var se=data.data;
+												if(se!=null){
+												if(type==1){
+												  bd1(se);
+												}else if(type==2){
+												 bd2(se);
+												}		
+												}
+																																		                                        
+                                              
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+			}				
+			var element = layui.element;
+			var table = layui.table;
+			var form = layui.form;
+			//上传
+			layui.use('upload', function(){
+			  var upload = layui.upload;		
+			  //执行实例
+			  /*var uploadInst = upload.render({
+			    elem: '#test1' //绑定元素
+			    ,url: '/upload/' //上传接口
+			    ,done: function(res){
+			      //上传完毕回调
+			    }
+			    ,error: function(){
+			      //请求异常回调
+			    }
+			  });*/
+			});
+			//弹出层
+			layui.use('layer', function() {
+				var $ = layui.jquery,
+				layer = layui.layer;									
+						$(document).on('click', '#seach', function() {										
+							var tabChannelName  = $("#tabChannelName").find("option:selected").text();
+							var tabInsurerId =$('#teams234 option:selected') .val();
+							var tabStartTimeStart  = $("#test1").val();
+							var tabStartTimeEnd  = $("#test2").val();
+							var	tabNature = $("#tabNature").find("option:selected").text();
+							
+							var tabExamineAndVerify= $("#tabExamineAndVerify").find("option:selected").text();
+							var tabSubmitTimeStart=$("#test5").val();
+							var tabSubmitTimeEnd=$("#test6").val();
+							var tabExamineTimeStart=$("#test3").val();
+							var tabExamineTimeEnd=$("#test4").val();
+			            	var jsonInsurerPolicyStr="{";
+			            
+			            	if(tabInsurerId!=""){
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+"\"tabInsurerId\":"+"\""+tabInsurerId+"\"";
+			            	}
+			            	if(tabStartTimeStart!=""){
+			            	tabStartTimeStart=tabStartTimeStart+" 00:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabStartTimeStart\":"+"\""+tabStartTimeStart+"\"";
+			            	}
+			            	if(tabStartTimeEnd!=""){
+			            	tabStartTimeEnd=tabStartTimeEnd+" 24:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabStartTimeEnd\":"+"\""+tabStartTimeEnd+"\"";
+			            	}
+			            	if(tabExamineTimeStart!=""){
+			            	tabExamineTimeStart=tabExamineTimeStart+" 00:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabExamineTimeStart\":"+"\""+tabExamineTimeStart+"\"";
+			            	}
+			            	if(tabExamineTimeEnd!=""){
+			            	tabExamineTimeEnd=tabExamineTimeEnd+" 24:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabExamineTimeEnd\":"+"\""+tabExamineTimeEnd+"\"";
+			            	}
+			            	if(tabNature!=""){
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabNature\":"+"\""+tabNature+"\"";
+			            	}
+			            	if(tabExamineAndVerify!=""){
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabExamineAndVerify\":"+"\""+tabExamineAndVerify+"\"";
+			            	}
+			            		
+			            	if(tabChannelName!=""){
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabChannelName\":"+"\""+tabChannelName+"\"";
+			            	}
+			            	if(tabSubmitTimeStart!=""){
+			            	tabSubmitTimeStart=tabSubmitTimeStart+" 00:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabSubmitTimeStart\":"+"\""+tabSubmitTimeStart+"\"";
+			            	}
+			            	if(tabSubmitTimeEnd!=""){
+			            	tabSubmitTimeEnd=tabSubmitTimeEnd+" 24:00:00";
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+",\"tabSubmitTimeEnd\":"+"\""+tabSubmitTimeEnd+"\"";
+			            	}
+			            
+			            	if(jsonInsurerPolicyStr==="{"){
+			            	jsonInsurerPolicyStr=null;
+			            	}else{
+			            	jsonInsurerPolicyStr=jsonInsurerPolicyStr+"}";	
+			            	}      	
+			         
+			            
+				//var jsonInsurerPolicyStr="{\"tabInsurerId\":"+tabInsurerId+",\"tabChannelName\":"+tabChannelName+",\"tabNature\":"+tabNature+",\"tabStartTime\":"+tabStartTime+",\"tabState\":\"商业险\",\"tabIsSuccessive\":\"续保\",\"tabQuality\":\"2吨以下\",\"tabIncome\":0,\"tabExpenditure\":0,\"tabInvoice\":0,\"tabSubmitTime\":\"2018-12-24 07:59:42\",\"tabAgent\":\"李四\",\"tabExamineAndVerify\":\"否\",\"tabExaminePerson\":\"待审核\",\"tabAgentId\":1,\"tabWritePerson\":\"admin\",\"tabIsDelete\":\"0\",\"tabInsurerName\":\"君逸科技2\",\"tabBxStateId\":1";
+								
+						tableIns.reload({
+							url: '/yxbx/queryInsurerPolicy?pageSize=10',
+						 	method: 'POST',
+                            where: { //设定异步数据接口的额外参数，任意设
+                                        jsonInsurerPolicyStr: jsonInsurerPolicyStr								                                  
+                                    }, 
+                            page: {
+                                     curr: 1 //重新从第 1 页开始
+                                    }
+                         });	
+				           
+				});				
+			
+				$(document).on('click', '#upl', function() {
+					layer.open({
+						type: 1,
+						title: ['批量上传', 'font-size:18px;'],
+						content: $('#uploadList'),
+						btn: ['保存', '取消'],
+						yes: function(index, layero) {
+							console.log('提交');
+						},
+						skin: 'layui-layer-rim',
+						area: ['400px', '400px'],
+						resize: false
+					});
+				});
+			});
+			//弹出层
+			layui.use('layer', function() {
+				var $ = layui.jquery,
+				layer = layui.layer;
+				bSelect('/yxbx/findAgent',1000000000,1);
+				bSelect('/yxbx/queryInsurance',1000000000,2);
+				
+				$(document).on('click', '#new', function() {
+					layer.open({
+						type: 1,
+						title: ['新建政策', 'font-size:18px;'],
+						content: $('#newAdd'),
+						btn: ['保存', '取消'],
+						end : function() {
+		                             	$("#newAdd").hide();
+			                },
+						yes: function(index, layero) {
+						    var channelName  = $("#channelNameSelect").find("option:selected").text();
+						    var isSuccessive  = $("#isSuccessiveSelect").find("option:selected").text();
+						    var nature  = $("#natureSelect").find("option:selected").text();
+						    var quality  = $("#qualitySelect").find("option:selected").text();
+							var insurerId =$('#insuranceSelect option:selected') .val();
+							var agentId =$('#AgentSelect option:selected') .val();
+								userInfo = JSON.parse(localStorage.getItem("userInfo"));
+								var	endTime=$("#test20").val()
+							if($("#test20").val()!=""){
+									var	endTime=$("#test20").val()+"  00:00:00";//生效时间
+							}
+							
+							var syxs  = $("#syxs").val();//商业收率
+							var syxc  = $("#syxc").val();//商业出率
+							var syxk  = $("#syxk").val();//商业开率
+							var jqxs  = $("#jqxs").val();//交强收率
+							var jqxc  = $("#jqxc").val();//交强出率
+							var jqxk  = $("#jqxk").val();//交强开率
+							var bxJson="{\"listBxState\":";
+							if(syxs!=""&&syxc!=""&&syxk!=""){
+							 bxJson=bxJson+"[{\"tabState\":"+"\"商业险\""+",\"tabIncome\":"+syxs+",\"tabExpenditure\":"+syxc+",\"tabInvoice\":"+syxk+"}";
+							} 
+							if(jqxs!=""&&jqxc!=""&&jqxk!=""){
+								alert(jqxs);
+							   if(bxJson==="{\"listBxState\":"){
+							   		 bxJson=bxJson+"[{\"tabState\":"+"\"交强险\""+",\"tabIncome\":"+jqxs+",\"tabExpenditure\":"+jqxc+",\"tabInvoice\":"+jqxk+"}"+"]"+"}";   
+							   }else{
+							   	 bxJson=bxJson+",{\"tabState\":"+"\"交强险\""+",\"tabIncome\":"+jqxs+",\"tabExpenditure\":"+jqxc+",\"tabInvoice\":"+jqxk+"}"+"]"+"}";   	
+							   }															
+							}else {
+								 if(bxJson==="{\"listBxState\":"){								 
+								 	alert("至少添加一种险率");
+								 	return;
+								 }else{
+								 	bxJson=bxJson+"]"+"}";
+								 }
+							}																					             					
+																										
+							  $.ajax({
+								 url : '/yxbx/addinsurerPolicy',
+								type:  'POST',
+								
+								data:{
+									 'insurerId':insurerId,
+									 'agentId':agentId,
+									 'channelName':channelName,
+									 'isSuccessive':isSuccessive,
+									 'nature':nature,
+									 'quality':quality,		
+									 'bxJson':bxJson,
+									  'endTime':endTime, 				
+									 'userId':userInfo.userId  
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+											//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+						},
+						skin: 'layui-layer-rim',
+						area: ['1010px', '600px'],
+						resize: false
+					});
+				});
+			});
+				
+			//展示已知数据
+		var	tableIns=table.render({
+				size: 'sm',
+				elem: '#demo',
+				url: '/yxbx/queryInsurerPolicy?pageSize=10',
+				cols: [[
+				{event: 'setSign',align:'center',field: 'id',title: '编号',width: 80},
+				{event: 'setSign',align:'center',field: 'tabInsurerName',title: '保险公司',width: 135},
+				{event: 'setSign',align:'center',field: 'tabChannelName',title: '渠道',width: 135},
+				{event: 'setSign',align:'center',field: 'tabNature',title: '性质',width: 135},
+				{event: 'setSign',align:'center',field: 'tabStartTime',title: '生效日期',width: 120},
+				{event: 'setSign',align:'center',field: 'tabEndTime',title: '失效日期',width: 120},
+				{event: 'setSign',align:'center',field: 'tabState',title: '费用类型',width: 135},
+				{event: 'setSign',align:'center',field: 'tabIsSuccessive',title: '是否续保',width: 135},
+				{event: 'setSign',align:'center',field: 'tabQuality',title: '核定载质量',width: 120},
+				{event: 'setSign',align:'center',field: 'tabInvoice',title: '收入',width: 80},
+				{event: 'setSign',align:'center',field: 'tabExpenditure',title: '支出',width: 80},
+				{event: 'setSign',align:'center',field: 'tabInvoice',title: '开票',width: 80},
+				{event: 'setSign',align:'center',field: 'tabSubmitTime',title: '提交时间',width: 120},
+				{event: 'setSign',align:'center',field: 'tabAgent',title: '代理人',width: 135},
+				{event: 'setSign',align:'center',field: 'tabExamineAndVerify',title: '审核状态',width: 135},
+				{event: 'setSign',align:'center',field: 'tabExamineTime',title: '审核日期',width: 120},
+				{event: 'setSign',align:'center',field: 'tabExaminePerson',title: '审核人',width: 135},
+				{event: 'setSign',align:'center',fixed: 'right', width:120, align:'center', toolbar: '#barDemo'}, //这里的toolbar值是模板元素的选择器
+				]],
+				
+			/* 	skin: 'line', //表格风格
+				even: true, */
+				page: true, //是否显示分页
+				limits: [10, 20, 30],
+				limit: 10 //每页默认显示的数量
+			});
+			//监听工具条
+			table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			  var data = obj.data; //获得当前行数据
+			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			  var tr = obj.tr; //获得当前行 tr 的DOM对象
+			 
+			  if(layEvent === 'detail'){ //查看
+			    //do somehing
+			  } else if(layEvent === 'del'){ //审核
+			 	if(data.tabExamineAndVerify=='是'){
+			 		return;
+			 	}
+                 layer.confirm('是否通过审核?',{ btn: ['通过','驳回','取消'],btn1: function(){
+                //do something
+                   
+			      //向服务端发送删除指令
+			       userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			    		$.ajax({
+								url: '/yxbx/updateInsurerPolicy',	
+								type:  'POST',
+								data:{
+									 'insurerPolicyId':data.id,
+									 'trueSId':1,
+									  'userId':userInfo.userId,
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+										
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+                 },
+                    btn2: function(index, layero){ 
+                      userInfo = JSON.parse(localStorage.getItem("userInfo"));
+                     $.ajax({
+								url: '/yxbx/updateInsurerPolicy',	
+								type:  'POST',
+								data:{
+									 'insurerPolicyId':data.id,
+									 'trueSId':2,
+									  'userId':userInfo.userId,
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+										
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+                   
+                    }, 
+                     btn3: function(index, layero){ 
+                     layer.close(index);
+                   
+                    } 
+                 });
+			  
+			    
+			     // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			     /*  layer.close(index); */
+			      //向服务端发送删除指令
+			   
+			 
+			  } else if(layEvent === 'edit'){ //编辑
+			  	//弹出层
+				layui.use('layer', function() {
+					var $ = layui.jquery,
+					layer = layui.layer;
+					$(document).ready(function() {
+						layer.open({
+							type: 1,
+							title: ['编辑', 'font-size:18px;'],
+							content: $('#newAdd'),
+							btn: ['提交', '关闭'],
+							end : function() {
+		                             	$("#newAdd").hide();
+			                },
+							yes: function(index, layero) {
+								alert();
+								console.log('提交');
+							},
+							skin: 'layui-layer-rim',
+							area: ['1010px', '600px'],
+							resize: false
+						});
+					});
+				});
+			  }
+			});
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test1' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test2' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test3' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test4' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test5' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test6' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test7' //指定元素
+				});
+				laydate.render({
+					elem: '#test20' //指定元素
+				});
+			});
+		</script>
+	</body>
+</html>

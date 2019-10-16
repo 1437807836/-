@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title>代理人管理</title>
+	</head>
+	<body class="layui-view-body">
+		<div class="layui-content">
+			<div class="layui-row layui-col-space20">
+				<div class="layui-row">
+					<div class="layui-card">
+						<div class="layui-card-body">
+							<div class="form-box">
+								<div class="layui-form layui-form-item">
+									<div >
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">姓名:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input id="name1"  type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">手机:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input id="mobile" type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">团队:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="teams1" id="teams1" >
+													<option value=""></option>
+													
+												</select>
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">										
+											<div class="layui-col-md2 layui-col-md-offset10">
+												<button id="jump" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button>
+												<!--<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#x1006;</i>删除</button>-->
+												<button id="seach" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+												<!--<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe642;</i>编辑</button>-->
+												<button id="team"  class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe613;</i>团队管理</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<table id="demo" lay-filter="test"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="teamManage" class="layui-fluid" style="display: none;">
+			<div class="layui-row" style="margin-top: 2%;">
+				<button id="cTeam" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<table id="demoTeam" lay-filter="test1"></table>
+			</div>
+		</div>
+		<div id="edit" class="layui-fluid" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;border: 1px solid #DEDEDE;">
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">名称:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="tabAgentName" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">性别:</div>
+					<div class="" style="width: 200px;">
+						<select name="sex" id="sex">
+							<option value="1">男</option>
+							<option value="2">女</option>
+						</select>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">身份证:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="tabIdCardNum" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">银行账户:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="tabBankCardNum" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">银行名:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="tabBankName" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">电话:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="tabMobile" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">团队:</div>
+					<div class="" style="width: 200px;">
+						<select name="teams" id="teams2">
+						<option value=""></option>
+							
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="creatTeam" class="layui-fluid" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;border: 1px solid #DEDEDE;">
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">名称:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="teamName" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>				
+				
+			</div>
+		</div>
+		<script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		<script type="text/html" id="barDemo1">
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		<script src="../assets/layui.all.js"></script>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script>  	
+//重新渲染表单
+function renderForm(){
+	
+  layui.use('form', function(){
+   var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
+   form.render();
+  });
+ }
+ 															
+     function  bd(data){
+     var select = document.getElementById("teams1");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabTeamName,data[i].id));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+      function  bdCreat(data,sel){
+      		
+             var select = document.getElementById("teams2");
+               select.options.length=0; 
+               select.options.add(new Option("",""));   
+             
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabTeamName,data[i].id));
+                   if(sel!=null){
+                   
+                     if(data[i].tabTeamName==sel.tabTeamName){      
+                     	
+                        select.options[i+1].selected=true;  
+                     
+                     }
+                   }          
+               
+              }
+                 var form = layui.form;
+               renderForm();
+             
+             
+    }                           
+                                           
+ 
+
+				$.ajax({
+								 url : '/yxbx/findTeam',
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':100000000,
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+										var select = document.getElementById("teams1");
+												var se=data.data;	
+												datas=se;
+											
+											if(se!=null){                                        
+                                                bd(se);
+                                              }  
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+							
+			
+			var element = layui.element;
+			var table = layui.table;
+			var form = layui.form;
+			//弹出层
+			layui.use('layer', function() {
+					var $ = layui.jquery,
+					layer = layui.layer;
+						$(document).on('click', '#seach', function() {	
+				     										       
+						var tName = $("#teams1").find("option:selected").text();
+						var name = $("#name1").val();
+						var mobile  = $("#mobil").val();
+						
+						 tableIns.reload({
+						 	method: 'POST',
+                            where: { //设定异步数据接口的额外参数，任意设
+                                      TeamName: tName,
+                                      agentName:name,
+                                      mobile:mobile                                                                             
+                                    }, 
+                            page: {
+                                     curr: 1 //重新从第 1 页开始
+                                    }
+                   });
+				})
+					$(document).on('click', '#jump', function() {
+					      
+							$.ajax({
+								 url : '/yxbx/findTeam',
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':100000000,
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());										
+												var se=data.data;	
+												if(se!=null){
+												  bdCreat(se);
+												}	
+                                       
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+						  document.getElementById('tabAgentName').value ="";
+			             document.getElementById('tabMobile').value = "";
+			             document.getElementById('tabBankName').value ="";
+			             document.getElementById('tabBankCardNum').value = "";
+			             document.getElementById('tabIdCardNum').value = "";		
+				             
+						layer.open({
+							type: 1,
+							title: ['新建/编辑', 'font-size:18px;'],
+							content: $('#edit'),
+							btn: ['提交', '关闭'],
+							end : function() {
+		                             	$("#edit").hide();
+			                },
+							
+							yes: function(index, layero) {
+								console.log('提交');
+							var teamId =$('#teams2 option:selected') .val();
+							var agentName = $("#tabAgentName").val();
+							
+							var mobile  = $("#tabMobile").val();
+							var IdCard  = $("#tabIdCardNum").val();
+							var tabBankName  = $("#tabBankName").val();
+							var tabAgentSex  = $("#sex").find("option:selected").text();
+							var tabPayCard  = $("#tabBankCardNum").val();
+							userInfo = JSON.parse(localStorage.getItem("userInfo"));
+							if(agentName===""||agentName===null){
+								alert("请添加代理人姓名");
+								return;
+							}
+							/* if(mobile===""||mobile===null){
+								alert("请添加代理人手机号码");
+								return;
+							}
+							if(tabPayCard===""||tabPayCard===null){
+								alert("请添加代理人银行卡号");
+								return;
+							} */
+							   $.ajax({
+								 url : '/yxbx/addAgent',
+								type:  'POST',
+								
+								data:{
+									 'teamId':teamId,
+									 'agentName':agentName,
+									 'IdCard':IdCard,
+									 'tabBankName':tabBankName,
+									 'tabAgentSex':tabAgentSex,
+									 'mobile':mobile,
+									 'tabPayCard':tabPayCard,
+									 'userId':userInfo.userId
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+											//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+							},
+							btn2: function(){//layer.alert('aaa',{title:'msg title'});  ////点击取消回调
+							$("#edit").hide();
+							
+                               layer.closeAll();//layer.closeAll();
+                             },
+
+							skin: 'layui-layer-rim',
+							area: ['500px', '450px'],
+							resize: false
+						});
+					});
+				});
+			//弹出层
+		layui.use('layer', function() {
+				var $ = layui.jquery,
+				layer = layui.layer;
+				$(document).on('click', '#team', function() {
+					layer.open({
+						type: 1,
+						title: ['保险团队管理', 'font-size:18px;'],
+						content: $('#teamManage'),
+						end : function() {
+		                     $("#teamManage").hide();
+			                },
+						skin: 'layui-layer-rim',
+						area: ['1310px', '800px'],
+						resize: false
+					});
+				});
+				$(document).on('click', '#cTeam', function() {
+					layer.open({
+						type: 1,
+						title: ['保险团队管理', 'font-size:18px;'],
+						content: $('#creatTeam'),
+						btn: ['提交', '关闭'],
+						end : function() {
+		                     $("#creatTeam").hide();
+			                },
+						yes: function(index, layero) {
+						userInfo = JSON.parse(localStorage.getItem("userInfo"));
+					            var TeamName= $("#teamName").val();
+							 $.ajax({
+								 url : '/yxbx/addTeam',
+								type:  'POST',								
+								data:{
+									 'TeamName':TeamName,							
+									 'userId':userInfo.userId
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+											//这里以搜索为例
+                                          tableIns1.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+								
+						},
+						skin: 'layui-layer-rim',
+						area: ['500px', '450px'],
+						resize: false
+					});
+				});
+			});
+			
+			//展示已知数据
+	var tableIns1=table.render({
+				elem: '#demoTeam',
+				size: 'sm',
+				url: '/yxbx/findTeam?pageSize=10',
+				cols: [[
+					{event: 'setSign',align:'center',field: 'id',title: '编号',width:120},
+				{event: 'setSign',align:'center',field: 'tabTeamName',title: '团队名称',width:120},
+				{event: 'setSign',align:'center',field: 'tabFounder',title: '创建人',width:120},
+				{event: 'setSign',align:'center',field: 'tabFounderTime',title: '创建时间',width:200},
+				{event: 'setSign',align:'center',field: 'tabWriteDate',title: '修改时间',width:200},								
+				{event: 'setSign',align:'center',fixed: 'right', width:180, align:'center', toolbar: '#barDemo1'}, //这里的toolbar值是模板元素的选择器
+				]],
+				
+				/* skin: 'row',
+				even: true, */
+				page: true, //是否显示分页
+				limits: [10,20,30],
+				limit: 10 //每页默认显示的数量
+			});
+			//展示已知数据
+			  var tableIns =table.render({
+				url: '/yxbx/findAgent?pageSize=10',
+				elem: '#demo',
+				cols: [[
+				{event: 'setSign',align:'center',field: 'tabAgentId',title: '编码'},
+				{event: 'setSign',align:'center',field: 'tabAgentName',title: '姓名'},
+				{event: 'setSign',align:'center',field: 'tabAgentSex',title: '性别'},
+				{event: 'setSign',align:'center',field: 'tabBankCardNum',title: '银行账户'},
+				{event: 'setSign',align:'center',field: 'tabBankName',title: '银行'},
+				{event: 'setSign',align:'center',field: 'tabIdCardNum',title: '身份证'},
+				{event: 'setSign',align:'center',field: 'tabMobile',title: '手机'},
+				{event: 'setSign',align:'center',field: 'tabTeamName',title: '团队'},
+				{event: 'setSign',align:'center',field: 'tabAgentFounder',title: '创建人'},
+				{event: 'setSign',align:'center',fixed: 'right', width:180, align:'center', toolbar: '#barDemo'}, //这里的toolbar值是模板元素的选择器
+				]],
+				
+		/* 		skin: 'line', //表格风格
+				page: true, //是否显示分页 */
+				limits: [10, 20, 30],
+				limit: 10, //每页默认显示的数量
+			});
+			//监听工具条
+			table.on('tool(test1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			  var data = obj.data; //获得当前行数据
+			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			  var tr = obj.tr; //获得当前行 tr 的DOM对象
+			 
+			  if(layEvent === 'detail'){ //查看
+			    //do somehing
+			  } else if(layEvent === 'del'){ //删除
+			    layer.confirm('真的删除行么', function(index){
+			    /*   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			      layer.close(index); */
+			      //向服务端发送删除指令
+			       userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			    		$.ajax({
+								url: '/yxbx/deleteTeam',	
+								type:  'POST',
+								data:{
+									 'teamId':data.id,
+									  'userId':userInfo.userId,
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns1.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+										$("#prompt").hide();
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+			    
+			     // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			     /*  layer.close(index); */
+			      //向服务端发送删除指令
+			   
+			    });
+			  } else if(layEvent === 'edit'){ //编辑
+			  	//弹出层
+				layui.use('layer', function() {
+					var $ = layui.jquery,
+					layer = layui.layer;
+					$(document).ready(function() {
+						layer.open({
+							type: 1,
+							title: ['新建/编辑', 'font-size:18px;'],
+							content: $('#edit'),
+							btn: ['提交', '关闭'],
+							yes: function(index, layero) {
+								console.log('提交');
+							},
+							skin: 'layui-layer-rim',
+							area: ['500px', '450px'],
+							resize: false
+						});
+					});
+				});
+			  }
+			});
+			//监听工具条
+			table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			  var data = obj.data; //获得当前行数据
+			    data1 = obj.data;//全局
+			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			  var tr = obj.tr; //获得当前行 tr 的DOM对象
+			 
+			  if(layEvent === 'detail'){ //查看
+			    //do somehing
+			  } else if(layEvent === 'del'){ //删除
+			   
+			    layer.confirm('真的删除行么', function(index){
+			    userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			    		$.ajax({
+								url: '/yxbx/deleteAgent',	
+								type:  'POST',
+								data:{
+									 'agentId':data.tabAgentId,
+									  'userId':userInfo.userId,
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+										$("#prompt").hide();
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+			    
+			     // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			     /*  layer.close(index); */
+			      //向服务端发送删除指令
+			    });
+			  } else if(layEvent === 'edit'){ //编辑
+			             document.getElementById('tabAgentName').value = data.tabAgentName==null?"":data.tabAgentName;
+			             document.getElementById('tabMobile').value = data.tabMobile==null?"":data.tabMobile;
+			             document.getElementById('tabBankName').value = data.tabBankName==null?"":data.tabBankName;
+			             document.getElementById('tabBankCardNum').value = data.tabBankCardNum==null?"":data.tabBankCardNum;
+			             document.getElementById('tabIdCardNum').value = data.tabIdCardNum==null?"":data.tabIdCardNum;			          
+							//var tabAgentSex  = $("#sex").find("option:selected").text();								
+								var m=  document.getElementById('sex');							        															
+                                for(i=0;i<=m.options.length;i++){  
+                                   if(m.options[i].text==data.tabAgentSex){      
+                                         m.options[i].selected=true;   
+                                          break;
+                                     }
+                                 } 
+                                
+                                 var da=data;                             																														
+				$.ajax({
+								 url : '/yxbx/findTeam',
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':100000000,
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+										
+												
+												var se=data.data;	
+												  bdCreat(se,da);	                                        
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+							
+			  	//弹出层
+				layui.use('layer', function() {				
+					var $ = layui.jquery,
+					layer = layui.layer;
+					$(document).ready(function() {
+						 //	var teamId =$('#teams2 option:selected') .val();
+							
+							
+						   layer.open({
+							
+							type: 1,
+							title: ['编辑', 'font-size:18px;'],
+							content: $('#edit'),
+							btn: ['提交', '关闭'],							
+							end : function() {
+		                             	$("#edit").hide();
+			                },
+							yes: function(index, layero) {
+								var teamId =$('#teams2 option:selected') .val();
+							var agentName = $("#tabAgentName").val();
+							
+							var mobile  = $("#tabMobile").val();
+							var IdCard  = $("#tabIdCardNum").val();
+							var tabBankName  = $("#tabBankName").val();
+							var tabAgentSex  = $("#sex").find("option:selected").text();
+							var tabPayCard  = $("#tabBankCardNum").val();
+							userInfo = JSON.parse(localStorage.getItem("userInfo"));
+							if(agentName===""||agentName===null){
+								alert("请添加代理人姓名");
+								return;
+							}					
+								 $.ajax({
+								 url : '/yxbx/updateAgent',
+								type:  'POST',
+								
+								data:{
+								     'agentId':da.tabAgentId,
+									 'teamId':teamId,
+									 'agentName':agentName,
+									 'IdCard':IdCard,
+									 'tabBankName':tabBankName,
+									 'tabAgentSex':tabAgentSex,
+									 'mobile':mobile,
+									 'tabPayCard':tabPayCard,
+									 'userId':userInfo.userId
+									
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+											//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+                                  	var se=data.data;	
+                                  	   s="";
+                                  	  
+                                  	/*   var m=  document.getElementById('teams2');
+                                  	console.log("se",data);                                
+                                  	  for(i=0;i<=se.length;i++){  
+                                        if(se[i].tabTeamId==teamId){      
+                                         s= se[i];
+                                          break;
+                                        }
+                                     } 	
+                                     alert(s.tabTeamName);
+									 bdCreat(se,s);	 */                                        
+                                          
+								   	/*   var m=  document.getElementById('sex');						        															
+                                     for(i=0;i<=m.options.length;i++){  
+                                        if(m.options[i].text==tabAgentSex){      
+                                         m.options[i].selected=true;   
+                                          break;
+                                        }
+                                     }  */	
+										layer.close(layer.index);
+
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+								console.log('提交');
+							},
+							skin: 'layui-layer-rim',
+							area: ['500px', '450px'],
+							resize: false
+						});
+					});
+				});
+			  }
+			});
+		</script>
+	</body>
+</html>

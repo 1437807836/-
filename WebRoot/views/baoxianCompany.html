@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title>保险公司管理</title>
+	</head>
+
+	<body class="layui-view-body">
+		<div class="layui-content">
+			<div class="layui-row layui-col-space20">
+				<div class="layui-row">
+					<div class="layui-card">
+						<div class="layui-card-body">
+							<div class="form-box">
+								<div class="layui-form layui-form-item">
+									<div class="layui-row layui-col-space10">
+										<div class="layui-form-mid">名称:</div>
+										<div class="layui-input-inline" style="width: 100px;">
+											<input type="text" id="cName" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-row layui-col-space10" >
+										<div class="layui-col-md2 layui-col-md-offset10">
+											<button id="jump" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button>
+											<!-- <button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#x1006;</i>删除</button> -->
+											<button id="seach" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</div>
+								</div>
+								<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				                     <table id="demo" lay-filter="test1"></table>
+			                    </div>
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="prompt" class="layui-fluid" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div style="border: 1px solid #DEDEDE;padding:4% 2%;">
+					<div class="layui-form-mid layui-form-mid-width">名称:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 300px;">
+						<input id='tabInsurerName' type="text" autocomplete="off" class="layui-input" placeholder='请输入名称'>
+					</div>
+				</div>
+			</div>
+			<div style="padding:2%;" hidden="hidden">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">登录者Id:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
+						<input id="userId" type="text" autocomplete="off" class="layui-input" placeholder='请输入登录者id' readonly="readonly">
+					</div>
+				</div>
+				
+				
+		</div>
+		
+		<div id="editCompany" class="layui-fluid" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;border: 1px solid #DEDEDE;">
+				<div style="padding:2%;">
+					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">名称:</div>
+					<div class="layui-input-inline layui-input-inline-width" style="width: 200px;">
+						<input id="name" type="text" autocomplete="off" class="layui-input" placeholder=''>
+					</div>
+				</div>				
+				
+			</div>
+		</div>
+		
+		<script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		
+		</script>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script src="../assets/layui.all.js"></script>
+		<script>
+			var element = layui.element;
+			var table = layui.table;
+			var form = layui.form;
+				
+			//弹出层
+			layui.use('layer', function() {
+				var $ = layui.jquery,
+					layer = layui.layer;
+				$(document).on('click', '#seach', function() {	
+					var cName = $("#cName").val();
+						 tableIns.reload({
+						 	method: 'POST',
+                            where: { //设定异步数据接口的额外参数，任意设
+                                      insuranceName: cName                                          
+                                    }, 
+                            page: {
+                                     curr: 1 //重新从第 1 页开始
+                                    }
+                   });
+				})
+					
+				$(document).on('click', '#jump', function() {
+				userInfo = JSON.parse(localStorage.getItem("userInfo"));
+				    $("#userId").val(userInfo.userId);//userInfo.username
+					layer.open({
+						type: 1,
+						title: ['新增', 'font-size:18px;'],
+						btn: ['提交', '关闭'],
+							end : function() {
+		                             	$("#prompt").hide();
+			                },
+						yes: function(index, layero) {
+							console.log('提交');
+							var tabInsurerName = $("#tabInsurerName").val();
+								var userId = $("#userId").val();							
+							$.ajax({
+							
+								url: '/yxbx/addInsurance',	
+								type:  'POST',
+								data:{
+									 'insuranceName':tabInsurerName,
+									  'userId':userId,
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+										$("#prompt").hide();
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+						},
+						content: $('#prompt'),
+						skin: 'layui-layer-rim',
+						area: ['400px', '200px'],
+						resize: false
+					});
+				});
+			});
+			
+			//展示已知数据
+			
+   var tableIns =table.render({
+				elem: '#demo',
+				url: '/yxbx/queryInsurance?pageSize=10',
+				cols: [
+					[{event: 'setSign',align:'center',
+						field: 'id',
+						title: '编码',
+						width: 100
+					},{event: 'setSign',align:'center',
+						field: 'tabInsurerName',
+						title: '公司名称',
+						width: 200
+					},{event: 'setSign',align:'center',
+						field: 'tabWriteDate',
+						title: '创建时间',
+						width: 200
+					},{event: 'setSign',align:'center',
+						field: 'tabWhPerson',
+						title: '创建人',
+						width: 100
+					},
+						{event: 'setSign',align:'center',fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}
+					]
+				],
+				
+				/* skin: 'row',
+				even: true, */
+				page: true, //是否显示分页
+				limits: [10,20,30],
+				limit: 10 //每页默认显示的数量
+			});
+			//监听工具条
+			table.on('tool(test1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			  var data = obj.data; //获得当前行数据
+			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			  var tr = obj.tr; //获得当前行 tr 的DOM对象
+			 
+			  if(layEvent === 'detail'){ //查看 
+			     alert("1212312");
+			    //do somehing
+			  } else if(layEvent === 'del'){ //删除
+			    layer.confirm('真的删除行么', function(index){
+			     /*  obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			      layer.close(index); */
+			      //向服务端发送删除指令
+			     
+			    });
+			  } else if(layEvent === 'edit'){ //编辑
+			  
+			  	
+			  	 document.getElementById('name').value = data.tabInsurerName==null?"":data.tabInsurerName;
+			  	  layui.use('layer', function() {
+					var $ = layui.jquery,
+					layer = layui.layer;
+					$(document).ready(function() {
+						layer.open({
+							type: 1,
+							title: ['编辑', 'font-size:18px;'],
+							content: $('#editCompany'),
+							btn: ['提交', '关闭'],
+							end : function() {
+		                             	$("#editCompany").hide();
+			                },
+							yes: function(index, layero) {
+								 userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			    		$.ajax({
+								url: '/yxbx/updateInsurance',	
+								type:  'POST',
+								data:{
+									 'insuranceId':data.id,
+									  'userId':userInfo.userId,
+									   'insuranceName':	$("#name").val(),
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')')
+									console.log(data);
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+										//这里以搜索为例
+                                          tableIns.reload({
+                                          /*    where: { //设定异步数据接口的额外参数，任意设
+                                                   aaaaaa: 'xxx'
+                                                   ,bbb: 'yyy'
+                                                    //…
+                                             }, */
+                                             page: {
+                                                  curr: 1 //重新从第 1 页开始
+                                                  }
+                                           });
+                                      
+										layer.close(layer.index);
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+							},
+							skin: 'layui-layer-rim',
+							area: ['500px', '450px'],
+							resize: false
+						});
+					});
+				});
+			  }
+			});
+		</script>
+	</body>
+
+</html>

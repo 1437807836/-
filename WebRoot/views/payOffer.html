@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title>付款申请</title>
+	</head>
+	<body class="layui-view-body">
+		<div class="layui-content">
+			<div class="layui-row layui-col-space20">
+				<div class="layui-row">
+					<div class="layui-card">
+						<div class="layui-card-body">
+							<div class="form-box">
+								<div class="layui-form layui-form-item">
+									<div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">客户名称:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">款名:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">金额:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">至</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">收款人:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">付款账号:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">状态:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">处理人:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">审批名:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">付款编号:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">申请日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test1">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test2">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">付款日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test3">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test4">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">最近处理日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test5">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test6">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">结算方式:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-col-md2 layui-col-md-offset10">
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>全选</button>
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>零选</button>										
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<table id="demo"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../assets/layui.all.js"></script>
+		<script>
+			var element = layui.element;
+			var table = layui.table;
+			var form = layui.form;
+			//展示已知数据
+			table.render({
+				elem: '#demo',
+				url: '/yxbx/queryInsurerPolicy?pageSize=10',
+				cols: [[
+				{field: 'name',title: '客户名'},
+				{field: 'payName',title: '款名'},
+				{field: 'sum',title: '金额'},
+				{field: 'haveMan',title: '收款人'},
+				{field: 'payWay',title: '结算方式'},
+				{field: 'giveId',title: '付款编号'},
+				{field: 'giveNum',title: '付款账号'},
+				{field: 'offerMan',title: '申请人'},
+				{field: 'offerDate',title: '申请日期'},
+				{field: 'hopeDate',title: '希望日期'},
+				{field: 'giveDate',title: '付款日期'},
+				{field: 'daMan',title: '处理人'},
+				{field: 'state',title: '状态'},
+				{field: 'nowDo',title: '最近处理'},
+				{field: 'giveType',title: '付款类型'},
+				{field: 'haveNum',title: '收款账号'},			
+				]],
+				
+				skin: 'line', //表格风格
+				even: true,
+				page: true, //是否显示分页
+				limits: [10, 20, 30],
+				limit: 10 //每页默认显示的数量
+			});
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test1' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test2' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test3' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test4' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test5' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test6' //指定元素
+				});
+			});
+		</script>
+	</body>
+</html>

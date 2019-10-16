@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebRoot/views/operaterule.html,WebRoot/js,WebRoot/assets,WebRoot/upload.js,WebRoot/login.html,WebRoot/views/console_2.html,WebRoot/home.js,WebRoot/views/updatePwd.html
+validator.Unchecked=

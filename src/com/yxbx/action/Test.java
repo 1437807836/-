@@ -60,13 +60,21 @@ public class Test {
 
 	public static void main(String[] args) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式
-		String s = " 2020/11/11 11:22 ";
-		System.out.println(s.trim());
-		System.out.println(s.trim().length());
-		Double aDouble = new Double("2%".substring(0, "2%".indexOf("%")));
-		System.out.println(aDouble);
-		System.out.println(aDouble / 100.0);
-		System.out.println(aDouble / 100);
+//		String s = " 2020/11/11 11:22 ";
+//		System.out.println(s.trim());
+//		System.out.println(s.trim().length());
+//		Double aDouble = new Double("2%".substring(0, "2%".indexOf("%")));
+//		System.out.println(aDouble);
+//		System.out.println(aDouble / 100.0);
+//		System.out.println(aDouble / 100);
+		String s = "";
+		String[] split = s.split(",");
+		System.out.println(s.length());
+		System.out.println(split.length);
+		for (String s1 : split) {
+			System.out.println("切割之后：" + s1);
+		}
+
 		Date date = null;
 		try {
 			date = df.parse("2020/11/11 ");

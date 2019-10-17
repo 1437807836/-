@@ -4,7 +4,6 @@ package com.yxbx.action;
 import java.io.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -12,7 +11,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.struts2.ServletActionContext;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Controller;
 
 
 import com.google.gson.Gson;
-import com.mchange.v2.lang.ObjectUtils;
 import com.yxbx.bean.SeachInsurance;
 import com.yxbx.pojo.TabAgent;
 import com.yxbx.pojo.TabInsuranceFile;
@@ -35,7 +32,6 @@ import com.yxbx.pojo.TabPayPerson;
 import com.yxbx.pojo.TabPayRecord;
 import com.yxbx.pojo.TabScheduleOfInsurance;
 import com.yxbx.pojo.TabScheduleOfInsuranceTrue;
-import com.yxbx.pojo.TabScheduleOfInsuranceTrues;
 import com.yxbx.pojo.TabUser;
 import com.yxbx.service.AgentService;
 import com.yxbx.service.InsuranceFileService;
@@ -45,7 +41,6 @@ import com.yxbx.service.PayRecordService;
 import com.yxbx.service.ScheduleOfInsuranceService;
 import com.yxbx.service.ScheduleOfInsuranceTrueService;
 import com.yxbx.service.UserService;
-import com.yxbx.util.ExcelUtil;
 import com.yxbx.util.Util;
 
 
@@ -361,37 +356,67 @@ public class UserAction extends BaseAction {
             List<List<String>> list = new ArrayList<List<String>>();
             //第一行标题
             List<String> lista = new ArrayList<String>();
-            lista.add("客户名");
+            lista.add("保批单日期");
+            lista.add("到期日");
+            lista.add("签单日期");
+            lista.add("车牌号");
+            lista.add("被保险人");
+            lista.add("业务性质");
+            lista.add("转续保");
+            lista.add("使用性质");
+            lista.add("渠道");
+            lista.add("保险公司");
+            lista.add("交强险");
+            lista.add("商业险");
+            lista.add("车船税");
+            lista.add("小计");
             lista.add("代理人");
             lista.add("团队");
-            lista.add("收款状态");
+            lista.add("结算方式");
             lista.add("备注");
-            lista.add("申请人");
+            lista.add("出单员");
             lista.add("维护人");
+            lista.add("客户电话");
+            lista.add("交强净保费");
+            lista.add("交强费用率");
+            lista.add("交强险费用");
+            lista.add("商业净保费");
+            lista.add("商业费用率");
+            lista.add("商业险费用");
+            lista.add("其他应付");
             lista.add("佣金合计");
-            lista.add("其他佣金");
-            lista.add("付款状态");
-            lista.add("批次实付");
-            lista.add("写入时间");
-            lista.add("审核结果");
-            lista.add("审核人");
             list.add(lista);
             for (TabScheduleOfInsuranceTrue o : list1) {
                 List<String> listb = new ArrayList<String>();
+                listb.add(o.getTabQdDate() + "");
+                listb.add(o.getTabEndDate() + "");
+                listb.add(o.getTabStartDate() + "");
+                listb.add(o.getTabCarNum() + "");
                 listb.add(o.getTabSafePerson() + "");
+                listb.add(o.getTabBusinessNature() + "");
+                listb.add(o.getTabIsRenewal() + "");
+                listb.add(o.getTabCarState() + "");
+                listb.add(o.getTabChannel() + "");
+                listb.add(o.getTabInsuranceCompanyName() + "");
+                listb.add(o.getTabCompulsoryInsurance() + "");
+                listb.add(o.getTabCommercialInsurance() + "");
+                listb.add(o.getTabTax() + "");
+                listb.add(o.getTabSubtotal() + "");
                 listb.add(o.getTabAgentName() + "");
                 listb.add(o.getTabTeamOwnership() + "");
-                listb.add(o.getTabAmountSate() + "");
+                listb.add(o.getTabAgentPay() + "");
                 listb.add(o.getTabMessage() + "");
                 listb.add(o.getTabCdPerson() + "");
                 listb.add(o.getTabWhPerson() + "");
-                listb.add(o.getTabCommissionAmount() + "");
+                listb.add(o.getTabCustomerMobile() + "");
+                listb.add(o.getTabJqjbf() + "");
+                listb.add(o.getTabJqfyl() + "");
+                listb.add(o.getTabJqxfy() + "");
+                listb.add(o.getTabSyjbf() + "");
+                listb.add(o.getTabSyfyl() + "");
+                listb.add(o.getTabSyxfy() + "");
                 listb.add(o.getTabCommissionOther() + "");
-                listb.add(o.getTabAgentPay() + "");
-                listb.add(o.getTabIsPayAmount() + "");
-                listb.add(o.getTabWriteDate() + "");
-                listb.add(o.getTabIsAuditing() + "");
-                listb.add(o.getTabAnnotationsPerson() + "");
+                listb.add(o.getTabCommissionAmount() + "");
                 list.add(listb);
             }
             //设置文件的题目，下面的题目
@@ -934,6 +959,78 @@ public class UserAction extends BaseAction {
         return null;
     }
 
+    /**
+     * 修改付款状态
+     * @return
+     */
+    @Action(value = "updateInsuranceTabIsAuditing")
+    public String updateInsuranceTabIsAuditing() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String id = request.getParameter("id");
+        String tabIsAuditing = request.getParameter("tabIsAuditing");
+        String result = soiTrueService.updateInsuranceTabIsAuditing(id, tabIsAuditing);
+        map.put("code", 0);
+        map.put("msg", result);
+        strToJson(map);
+        return null;
+    }
+
+    /**
+     * 特殊政策提交保单
+     * @return
+     */
+    @Action(value = "commitSpecialInsuranceTabIsAuditing")
+    public String commitSpecialInsuranceTabIsAuditing() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String idStr = request.getParameter("idStr");
+        String result = soiTrueService.commitSpecialInsuranceTabIsAuditing(idStr);
+        map.put("code", 0);
+        map.put("msg", result);
+        strToJson(map);
+        return null;
+    }
+
+    /**
+     * 提交单个保单
+     * @return
+     */
+    @Action(value = "commitInsuranceTabIsAuditing")
+    public String commitInsuranceTabIsAuditing() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String id = request.getParameter("id");
+        System.out.println("---------" + id);
+        String result = soiTrueService.commitInsuranceTabIsAuditing(id);
+        if (result.equals("0")) {
+            map.put("msg", "提交成功！");
+        } else if (result.equals("1")) {
+            map.put("msg", "提交失败！该数据疑似重复！");
+        } else if (result.equals("2")) {
+            map.put("msg", "该数据已经提交过了！请勿重复提交！");
+        }
+        map.put("code", 0);
+        strToJson(map);
+        return null;
+    }
+
+    /**
+     * 提交多个保单
+     * @return
+     */
+    @Action(value = "commitManyInsuranceTabIsAuditing")
+    public String commitManyInsuranceTabIsAuditing() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String idStr = request.getParameter("idStr");
+        String result = soiTrueService.commitManyInsuranceTabIsAuditing(idStr);
+        map.put("code", 0);
+        map.put("msg", result);
+        strToJson(map);
+        return null;
+    }
+
     @Action(value = "findInsuranceTrue")    //查询正式表单
     public String findInsuranceTrue() {
 
@@ -957,8 +1054,8 @@ public class UserAction extends BaseAction {
             limit = limit * 2;
         }
         List<TabScheduleOfInsuranceTrue> list = soiTrueService.queryAllByObject(0, si, limit, page);
-        List<TabScheduleOfInsuranceTrue> lists = new ArrayList<TabScheduleOfInsuranceTrue>();
-        boolean cState = false;
+//        List<TabScheduleOfInsuranceTrue> lists = new ArrayList<TabScheduleOfInsuranceTrue>();
+        /*boolean cState = false;
         int colorState = 1;
         for (int i = 0; i < list.size(); i++) {
             TabScheduleOfInsuranceTrue tof = list.get(i);
@@ -990,22 +1087,26 @@ public class UserAction extends BaseAction {
             }
 
 
-        }
+        }*/
         List<TabScheduleOfInsuranceTrue> list1 = soiTrueService.queryAllByObject(si, "");
         if (list != null) {
-            for (TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue : list) {
-                List<TabInsuranceFile> tif = ifsService.queryInsuranceFileByInsuranceId(tabScheduleOfInsuranceTrue.getId());
-                tabScheduleOfInsuranceTrue.setTif(tif);
+//            for (TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue : list) {
+//                List<TabInsuranceFile> tif = ifsService.queryInsuranceFileByInsuranceId(tabScheduleOfInsuranceTrue.getId());
+//                tabScheduleOfInsuranceTrue.setTif(tif);
+//            }
+            for (int i = 0; i < list.size(); i++) {
+                List<TabInsuranceFile> tif = ifsService.queryInsuranceFileByInsuranceId(list.get(i).getId());
+                list.get(i).setTif(tif);
             }
 
             map.put("count", list1.size());
             map.put("code", 0);
             map.put("msg", "查询成功");
-            if ("sx".equals(si.getSxfalg())) {
-                map.put("data", lists);
-            } else {
+//            if ("sx".equals(si.getSxfalg())) {
+//                map.put("data", lists);
+//            } else {
                 map.put("data", list);
-            }
+//            }
         } else {
             list = new ArrayList<TabScheduleOfInsuranceTrue>();
             map.put("code", 2);
@@ -1358,7 +1459,6 @@ public class UserAction extends BaseAction {
             map.put("username", username);
             map.put("user_type", tu.getTabUserType());
             map.put("userId", tu.getTabUserId());
-            map.put("name", tu.getTabName());
         } else {
             map.put("code", 2);
             map.put("msg", "账号密码错误或用户不存在");

@@ -63,6 +63,7 @@ public class DataDao {
     public void updateObject(Object o) {
         Session session = getSession();
         session.update(o);
+        session.flush();
     }
 
     public int executeBySql(String sql) {

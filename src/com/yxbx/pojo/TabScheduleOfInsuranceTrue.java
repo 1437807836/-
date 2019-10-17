@@ -42,7 +42,7 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     private String tabCommissionOther;//其它佣金
     private BigDecimal tabCompulsoryInsurance;//交强险
     private String tabCustomerMobile;//用户手机
-    private Timestamp tabEndDate;//失效日期
+    private Timestamp tabEndDate;//失效日期--到期日
     private String tabIllustrate;//说明
     private String tabInsuranceCompanyName;//保险公司名称
     private String tabIsAuditing;//是否审核---打款状态
@@ -78,6 +78,7 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     private BigDecimal tabSyjbf;//商业净保费
     private BigDecimal tabSyfyl;//商业费用率
     private BigDecimal tabSyxfy;//商业险费用
+    private String tabIsCommit;//是否已提交
     private String realOpenPayState;//公司状态
 
     private List<TabInsuranceFile> tif = null;//附件
@@ -685,5 +686,14 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
 
     public void setTabSyxfy(BigDecimal tabSyxfy) {
         this.tabSyxfy = tabSyxfy;
+    }
+
+    @Column(name = "tab_isCommit", length = 10)
+    public String getTabIsCommit() {
+        return tabIsCommit;
+    }
+
+    public void setTabIsCommit(String tabIsCommit) {
+        this.tabIsCommit = tabIsCommit;
     }
 }

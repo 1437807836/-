@@ -29,4 +29,12 @@ public interface ScheduleOfInsuranceTrueService {
 	List<TabScheduleOfInsuranceTrue> queryAllTabScheduleOfInsuranceTrue(int page, String idStr);
 
 	String addScheduleOfInsuranceTrueOfExcel(String filePath, String fileName, int userId, String name);
+
+	String updateInsuranceTabIsAuditing(String id, String tabIsAuditing);
+
+	String commitInsuranceTabIsAuditing(String id);
+
+	String commitManyInsuranceTabIsAuditing(String idStr);
+
+	String commitSpecialInsuranceTabIsAuditing(String idStr);
 }

@@ -84,7 +84,7 @@ public class InsuranceFileServicempl implements  InsuranceFileService {
 	public List<TabInsuranceFile> queryInsuranceFileByInsuranceId(
 			Integer insuranceFileId) {
 		// TODO Auto-generated method stub
-		String   sql="from  TabInsuranceFile where  tab_insurance_id=:tabInsuranceId";
+		String   sql="from  TabInsuranceFile where  tab_insurance_true_id=:tabInsuranceId";
 		String[] params={"tabInsuranceId"};
 	    String[] values={String.valueOf(insuranceFileId)};
 	    @SuppressWarnings("unchecked")

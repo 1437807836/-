@@ -105,6 +105,16 @@ public class NewFileAction extends BaseAction {
     int soiId = 0;//要修改保险单的Id
     String insuranceName;//保险公司名字
 
+    int limit;//每页限制条数
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
     public int getFalseSId() {
         return falseSId;
     }
@@ -632,7 +642,7 @@ public class NewFileAction extends BaseAction {
         ta.setTabAgentName(agentName);
         ta.setTabMobile(mobile);
         ta.setTabTeamName(TeamName);
-        List<TabAgent> list = aService.queryAllAgent(ta, pageSize, page);
+        List<TabAgent> list = aService.queryAllAgent(ta, limit, page);
         List<TabAgent> list1 = aService.queryAgentAll();
         if (list != null && !list.isEmpty()) {
 
@@ -964,7 +974,7 @@ public class NewFileAction extends BaseAction {
     @Action(value = "queryInsurance")
     public String queryInsurance() {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<TabInsurer> list = insurerService.queryAllInsurer(insuranceName, pageSize, page);
+        List<TabInsurer> list = insurerService.queryAllInsurer(insuranceName, limit, page);
         List<TabInsurer> list1 = insurerService.queryInsurerAll();
         map.put("code", 0);
         map.put("data", list);
@@ -1783,7 +1793,7 @@ public class NewFileAction extends BaseAction {
             os.close();
             // 开始解析文件，添加保单
             returnMessage = "上传成功！后台正在添加保单，请稍后查看！";
-            returnMessage = soiTrueService.addScheduleOfInsuranceTrueOfExcel(filePath, fileName, userId, name);
+            returnMessage = soiTrueService.addScheduleOfInsuranceTrueOfExcel(filePath, fileName, userId, username);
             if ("".equals(returnMessage.trim())) {
 //                map.put("data", "");
                 map.put("code", 0);

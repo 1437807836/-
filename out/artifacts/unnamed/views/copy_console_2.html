@@ -1,0 +1,1279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title>保险清单</title>
+		<!--额外的样式-->
+		<style>
+			.layui-form-mid-width{
+				width: 100px;
+			}
+			.layui-input-inline-width{
+				width: 200px;
+			}
+			.layui-select-s{
+				width: 200px;
+				height: 38px;
+				padding-left: 10px;
+				border-color: #e6e6e6;
+			}
+		</style>
+		<style type="text/css">
+        .uploader-list {
+            margin-left: -15px;
+        }
+ 
+        .uploader-list .info {
+            position: relative;
+            margin-top: -25px;
+            background-color: black;
+            color: white;
+            filter: alpha(Opacity=80);
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+            width: 100px;
+            height: 25px;
+            text-align: center;
+            display: none;
+        }
+ 
+        .uploader-list .handle {
+            position: relative;
+            background-color: black;
+            color: white;
+            filter: alpha(Opacity=80);
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+            width: 100px;
+            text-align: right;
+            height: 18px;
+            margin-bottom: -18px;
+            display: none;
+        }
+ 
+        .uploader-list .handle span {
+            margin-right: 5px;
+        }
+ 
+        .uploader-list .handle span:hover {
+            cursor: pointer;
+        }
+ 
+        .uploader-list .file-iteme {
+            margin: 12px 0 0 15px;
+            padding: 1px;
+            float: left;
+        }
+    </style>
+		
+	</head>
+
+	<body class="layui-view-body">
+			<div class="layui-content">
+	
+			<div class="layui-row layui-col-space20">
+				<div class="layui-row">
+					<div class="layui-card">
+						<div class="layui-card-body">
+							<div class="form-box">
+								<div class="layui-form layui-form-item">
+									<div class="layui-inline">
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">业务编码:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" autocomplete="off" class="layui-input" id="yId">
+											</div>
+											<div class="layui-form-mid">代理人:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="AgentSelect">
+												    <option value=""></option>
+												
+												</select>
+											</div>
+											<div class="layui-form-mid">客户:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" id="tabSafePerson" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">车牌:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<input type="text" id="tabCarNum" autocomplete="off" class="layui-input">
+											</div>
+											<div class="layui-form-mid">使用性质:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex"  id="natureSelect">
+											    	<option value=""></option>
+													<option value="1">非运营客车</option>
+													<option value="2">客车</option>
+												</select>
+											</div>
+											
+                                             <div class="layui-form-mid">
+											 <label class="layui-form-label">险种</label>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select  name="modules"  id="tabYxState" lay-verify="required" lay-search="">
+												    <option value=""></option>
+													<option value="1">商业险</option>
+													<option value="2">交强险</option>
+												</select>
+											</div>
+											</div>
+											<div class="layui-form-mid">保险公司:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="insuranceSelect">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">渠道:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="channelNameSelect">
+												    <option value=""></option>
+													<option value="1">传统</option>
+													<option value="2">非传统</option>
+												</select>
+											</div>
+											<!-- <div class="layui-form-mid">结算方式:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+										</div> -->
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">出单日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test1">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test2">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">保单生效日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test3">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test4">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">录入日期:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test5">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test6">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">录入人:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+											 <select name="sex" id="whPersonSelect">
+												    <option value=""></option>
+													
+												</select>
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-form-mid">打款状态:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex">
+												    <option value=""></option>
+													<option value="1">已付款</option>
+													<option value="2">未付款</option>
+													<option value="3">未结清</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">打款时间:</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test7">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">到</div>
+											<div class="layui-input-inline" style="width: 140px;">
+												<input type="text" class="layui-input" id="test8">
+												<i class="layui-icon" style="position: absolute;top:10px;right: 14px;">&#xe637;</i>
+											</div>
+											<div class="layui-form-mid">保费收款状态:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="tabAmountSate">
+											    	<option value=""></option>
+													<option value="1">已收</option>
+													<option value="2">未收</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">团队名称:</div>
+											<div class="layui-input-inline" style="width: 100px;">
+												<select name="sex" id="teamsSelect">
+													<option value="1">1</option>
+													<option value="2">2</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-row layui-col-space10">
+											<div class="layui-col-md5 layui-col-md-offset7">
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>简洁模式</button>
+												<!-- <button id="jump" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button> -->
+	<!-- 											<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>全选</button>
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>提交</button>
+												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>金额冲正</button> -->
+												<!-- <button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>导出CSV</button> -->
+												<button  id="seach" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+												<button  id="testUp1" id="testUp1" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>导入表单</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<table id="demo" lay-filter="test1"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--保单新增/编辑-->
+		<div id="prompt" class="layui-fluid" style="display: none;">
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">业务编码:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="pistId" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">代理人姓名:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input id="tabAgentName1" type="text" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">客户电话:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input id="tabCustomerMobile1" type="text" autocomplete="off" class="layui-input">
+					</div>
+				</div> 
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">车牌:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="tabCarNum1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">客户姓名:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="sPerson" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">团队名称:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					<input type="text" id="teamsSelect1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" class="layui-select-s" id="teamsSelect1">
+						    <option value=""></option>
+							
+						</select> -->
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">渠道:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="tabChannel1" autocomplete="off" class="layui-input">
+					<!-- 	<select name="sex" id="tabChannel1" class="layui-select-s">
+							<option value=""></option>
+							<option value="1">传统</option>
+							<option value="2">非传统</option>
+							<option value="2">其他</option>
+						</select> -->
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">使用性质:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					
+					<input type="text" id="tabCarState1" autocomplete="off" class="layui-input">
+					<!-- 	<select name="sex" id="tabCarState1" class="layui-select-s">
+						    <option value=""></option>
+							<option value="1">客车</option>
+							<option value="2">非客车</option>
+						</select> -->
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">业务性质保批单:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					<input type="text" id="tabYxState1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" id="tabYxState1"  class="layui-select-s">
+							<option value=""></option>
+							<option value="1">交强险</option>
+							<option value="2">商业险</option>
+						</select> -->
+						
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">批单日期:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" class="layui-input" id="test91">
+						
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">生效日期:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" class="layui-input" id="test101">
+						
+					</div> 
+				</div>
+							
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">失效日期:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" class="layui-input" id="test111">
+						
+					</div>
+					
+				</div>
+			
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">商业险:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="syx" autocomplete="off" class="layui-input">
+					</div> 
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">交强险:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="jqx" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">车船税:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="ccs" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">实收:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					<input type="text" id="shishou1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" id="ifxbSelect" class="layui-select-s">
+							<option value=""></option>
+							<option value="1">是</option>
+							<option value="2">否</option>
+						
+						</select> -->
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">其他佣金:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					<input type="text" id="qitayongjin1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" id="hSelect" class="layui-select-s">
+					    	<option value=""></option>
+							<option value="1">2吨以下</option>
+							<option value="2">5吨以下</option>
+							<option value="3">10吨以下</option>
+								<option value="4">15吨以下</option>
+						</select> -->
+						
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">佣金合计:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="xj" autocomplete="off" class="layui-input">
+						
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">  
+					<div class="layui-form-mid layui-form-mid-width">营改增后交强保费:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="tab_ygzhjq_amount1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">营改增后商业保费:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="tab_ygzhsy_amount1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">结算方式:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					<input type="text" id="payState" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" class="layui-select-s">
+							<option value="1">1</option>
+							<option value="2">2</option>
+						</select> -->
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">净保费交强率:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text"id="tab_jbfjql1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">净保费商业率:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="tabJbfsyl1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">净费应收:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="jfys" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">保费收款状态:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					
+						<input type="text" id="tabAmountSate1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" id="tabAmountSate1" class="layui-select-s">
+						    <option value=""></option>
+							<option value="1">已收</option>
+							<option value="2">未付</option>
+						</select> -->
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">总保费/净费:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+					
+						<input type="text" id="tab_zbf_j1" autocomplete="off" class="layui-input">
+						<!-- <select name="sex" id="tabAmountSate1" class="layui-select-s">
+						    <option value=""></option>
+							<option value="1">已收</option>
+							<option value="2">未付</option>
+						</select> -->
+					</div>
+				</div>
+				
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">录入人:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="writePerson1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">保险公司:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="gsName" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-form-mid layui-form-mid-width">总保费:</div>
+					<div class="layui-input-inline layui-input-inline-width">
+						<input type="text" id="allAmount1" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<label class="layui-form-label">备注：</label>
+			    <div class="layui-input-block">
+			      <textarea name="desc" placeholder="" id="tabMessage1" class="layui-textarea"></textarea>
+			    </div>
+			</div>
+			
+	<!-- 		<div class="layui-upload-drag" id="testUp">
+  <i class="layui-icon"></i>
+  <p>点击上传，或将文件拖拽到此处</p>
+   <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;width: 88%">
+        预览图：
+        <div class="layui-upload-list uploader-list" style="overflow: auto;" id="demo2">
+                                    
+        </div>
+    </blockquote>
+</div> -->
+			
+	<div class="layui-upload">
+    <button type="button" class="layui-btn" id="testUp">附件上传</button>
+
+    <blockquote id="demo12" class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;width: 88%">
+        <div id="layer-photos-demo" class="layer-photos-demo"> 
+                 <div class="layui-upload-list uploader-list" style="overflow: auto;" id="demo2">
+             
+  
+        	  </div>
+                                    
+        </div>
+    </blockquote>
+    </div>
+</div>
+ <input type="hidden" id="hidden_trainSchemeId">
+			<!-- 
+			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+				<label class="layui-form-label">文件上传：</label>
+				<button type="button" class="layui-btn" id="testUp">
+				  <i class="layui-icon">&#xe67c;</i>附件上传
+				</button>
+					 <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+    
+                      <div class="layui-upload-list" id="demo2"></div>
+               </blockquote>
+			</div> -->
+		
+			<!-- <div class="layui-row layui-col-space10">
+			  <div class="layui-col-md8 layui-col-md-offset4">	
+			  	<div class="layui-input-block">
+			      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			      <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+			    </div>
+			  </div>
+			</div> -->
+
+			<div id="imgView" class="layui-fluid" style="display: none;">
+			
+				<img id="imgs" alt="" src="">
+						
+			</div>
+		<!--  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a> -->
+		<script type="text/html" id="barDemo">
+		 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		
+         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">审核</a>
+		</script>
+		<script src="../assets/layui.all.js"></script>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script>
+		
+		
+			function renderForm(){
+	
+  layui.use('form', function(){
+   var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
+   form.render();
+  });
+ }
+ 	 function  bd(data){
+     var select = document.getElementById("teamsSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabTeamName,data[i].id));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+		 function  bd1(data){
+     var select = document.getElementById("AgentSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabAgentName,data[i].tabAgentId));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+      function  bd2(data){
+     var select = document.getElementById("insuranceSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabInsurerName,data[i].id));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+      function  bd3(data){
+     var select = document.getElementById("whPersonSelect");
+                  select.options.length=0; 
+               select.options.add(new Option("",""));     
+              for(var i = 0;i<data.length;i++){ 
+                   select.options.add(new Option(data[i].tabUsername,data[i].tabUserId));
+              }
+               var form = layui.form;
+               renderForm();
+             
+    }
+ 	   bSelect('/yxbx/findAgent',1000000000,1);
+	   bSelect('/yxbx/queryInsurance',1000000000,2);
+	   bSelect('/yxbx/findTeam',1000000000,3);
+	     bSelect('/yxbx/queryAllUser',1000000000,4);
+		function bSelect(url,params,type){
+			userInfo = JSON.parse(localStorage.getItem("userInfo"));			
+				$.ajax({
+								url: url,
+								type:  'POST',
+								 async: false,//这得注意是同步
+								data:{
+									 'pageSize':params,
+									 'userId':userInfo.userId
+								},
+								success: function(res) {
+									var data = eval('(' + res + ')');
+									
+									if(data.msg === '权限不足'){
+										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
+										
+									}else if(data.code===0){
+											//$('#teams1 option:selected') .val();	
+											//alert($('#teams1 option:selected') .val());
+										
+												var se=data.data;
+												
+											if(se!=null){
+												if(type==1){
+												  bd1(se);
+												}else if(type==2){
+												 bd2(se);
+												}else if(type==3){
+												 bd(se);
+												}else if(type==4){
+												 bd3(se);
+												}																							                                        
+                                              }
+									}else{
+								       alert(data.msg);
+									
+									}
+								},
+								error: function(res) {
+									console.log(res);
+								}
+							});
+			}				
+			var element = layui.element;
+			var table = layui.table;
+			var form = layui.form;
+			/* //上传
+			layui.use('upload', function(){
+			  var upload = layui.upload;
+  
+			  //执行实例
+			  var uploadInst = upload.render({
+			    elem: '#testUp',
+			    url: '/yxbx/uploadfile',
+			    data: {
+			    	'userId':userId,
+			    	'trueSId':trueSId
+			    	
+			    },
+			    done: function(res){
+			      //上传完毕回调
+			    }
+			    ,error: function(){
+			      //请求异常回调
+			    }
+			  });
+			}); */
+			//弹出层
+			layui.use('layer', function() {
+				var $ = layui.jquery,
+					layer = layui.layer;
+				$(document).on('click', '#seach', function() {
+					    	var channelName  = $("#channelNameSelect").find("option:selected").text();
+						    var tabAmountSate  = $("#tabAmountSate").find("option:selected").text();
+						    var nature  = $("#natureSelect").find("option:selected").text();
+						    var quality  = $("#qualitySelect").find("option:selected").text();
+						   // var insurerId =$('#insuranceSelect option:selected') .val(); 
+							var insurerId = $("#insuranceSelect").find("option:selected").text();
+							var agentId = $("#AgentSelect").find("option:selected").text();
+							var teamId =$("#teamsSelect").find("option:selected").text();
+							var whPersonSelect =$("#whPersonSelect").find("option:selected").text();															
+								userInfo = JSON.parse(localStorage.getItem("userInfo"));
+							var tabSafePerson=$("#tabSafePerson").val();//客户
+							var  yId=$("#yId").val();//业务编码
+							var  tabCarNum=$("#tabCarNum").val();//业务编码
+							var  tabYxState= $("#tabYxState").find("option:selected").text();//险种									
+							var tabStartDateStart=$("#test1").val();//生效时间开始
+							var tabStartDateEnd=$("#test2").val();//生效时间结束
+						/* 	var	endTimeStart=$("#test20").val()+"  00:00:00";//生效时间
+							var	endTimeEnd=$("#test20").val()+"  00:00:00";//生效时间 */
+							var  tabQdDateStart=$("#test3").val();
+							var  tabQdDateEnd=$("#test4").val();
+							var  tab_write_date_start=$("#test5").val();
+							var  tab_write_date_end=$("#test6").val();
+							var jsonStr="{";
+							if(yId!=""){
+							jsonStr=jsonStr+"\"id\":"+yId;
+							}
+							if(tabCarNum!=""){
+							jsonStr=jsonStr+",\"tabCarNum\":"+tabCarNum;
+							}
+							
+							if(tabYxState!=""){
+								jsonStr=jsonStr+",\"tabYxState\":"+tabYxState;
+							}
+							if(nature!=""){
+							  jsonStr=jsonStr+",\"tabCarState\":"+nature;
+							}
+							if(channelName!=""){
+							  jsonStr=jsonStr+",\"tabChannel\":"+channelName;
+							}
+							if(agentId!=""){
+								 jsonStr=jsonStr+",\"tabAgentName\":"+agentId;
+							}
+							if(tabStartDateStart!=""){
+								 jsonStr=jsonStr+",\"tabStartDateStart\":\""+tabStartDateStart+"  00:00:00\"";
+							}
+							if(tabStartDateEnd!=""){
+								 jsonStr=jsonStr+",\"tabStartDateEnd\":\""+tabStartDateEnd+" 24:00:00\"";
+							}
+							if(tabQdDateStart!=""){
+								 jsonStr=jsonStr+",\"tabQdDateStart\":\""+tabQdDateStart+" 00:00:00\"";
+							}
+							if(tabQdDateEnd!=""){
+								 jsonStr=jsonStr+",\"tabQdDateEnd\":\""+tabQdDateEnd+" 24:00:00\"";
+							}
+							if(tab_write_date_start!=""){
+								 jsonStr=jsonStr+",\"tab_write_date_start\":\""+tab_write_date_start+" 00:00:00\"";
+							}
+							if(tab_write_date_end!=""){
+								 jsonStr=jsonStr+",\"tab_write_date_end\":\""+tab_write_date_end+" 24:00:00\"";
+							}
+							
+							if(tabSafePerson!=""){
+							 jsonStr=jsonStr+",\"tabSafePerson\":"+tabSafePerson;
+							}
+							if(teamId!=""){
+							 jsonStr=jsonStr+",\"tabTeamOwnership\":"+teamId;
+							}
+							if(insurerId!=""){
+							 jsonStr=jsonStr+",\"tabInsuranceCompanyName\":"+insurerId;
+							}
+							if(whPersonSelect!=""){
+							 jsonStr=jsonStr+",\"tabWhPerson\":"+whPersonSelect;
+							}
+							if(jsonStr!="{"){
+								
+						    	jsonStr=jsonStr+"}";
+							}else{
+						   	jsonStr=null;
+							}
+							
+						//	var jsonStr="{"id":102,"tabCarNum":"浙CEJ688","tabSafePerson":"彭成帮","tabYxState":"超级帅气","tabCarState":"客车","tabChannel":"平阳永顺","tabInsuranceCompanyName":"龙港太保","tabCdPerson":"吴玉修","tabWhPerson":"李学聪","tabAgentName":"杨思伟杨宗波","tabAmountSate":"已收","tabTeamOwnership":"杨思伟"}"
+						userInfo = JSON.parse(localStorage.getItem("userInfo"));
+						 tableIns.reload({
+						 	method: 'POST',
+                            where: { //设定异步数据接口的额外参数，任意设
+                                      SeachInsuranceJsonStr: jsonStr,
+                                      userId:userInfo.userId
+                                                                                                       
+                                    }, 
+                            page: {
+                                     curr: 1 //重新从第 1 页开始
+                                    }
+                   });
+				});
+				$(document).on('click', '#jump', function() {
+					layer.open({
+						type: 1,
+						title: ['新增/编辑', 'font-size:18px;'],
+						content: $('#prompt'),
+						skin: 'layui-layer-rim',
+						area: ['1310px', '800px'],
+						resize: false
+					});
+				});
+			});
+		userInfo = JSON.parse(localStorage.getItem("userInfo"));
+		
+			//展示已知数据
+		var  tableIns=table.render({
+				elem: '#demo',
+				url: '/yxbx/findInsuranceWait',
+				type:  'POST',
+				where:{
+					'pageSize':10,
+					'userId':userInfo.userId
+					},
+				cols: [
+					[ //标题栏
+						{
+							field: 'tabStartDate',
+							title: '批单日期',
+							width: 100,
+							sort: true
+						},
+						{
+							field: 'tabEndDate',
+							title: '到期日',
+							width: 100
+						},
+						{
+							field: 'tabQdDate',
+							title: '签单日期',
+							width: 100
+						},
+						{
+							field: 'tabCarNum',
+							title: '车牌号',
+							width: 100
+						},
+						{
+							field: 'tabSafePerson',
+							title: '被保险人',
+							width: 100
+						},
+						{
+							field: 'tabYxState',
+							title: '业务性质报批单',
+							width: 100
+						},
+						{
+							field: 'tabCarState',
+							title: '车辆使用性质',
+							width: 100
+						},
+						{
+							field: '渠道归属',
+							title: '小计',
+							width: 100
+						},
+						{
+							field: 'tabInsuranceCompanyName',
+							title: '保险公司名字',
+							width: 120
+						},
+						{
+							field: 'tabCompulsoryInsurance',
+							title: '交强险',
+							width: 100
+						},
+						{
+							field: 'tabCommercialInsurance',
+							title: '商业险',
+							width: 100
+						},
+						{
+							field: 'tabTax',
+							title: '车船税',
+							width: 100
+						},
+						{
+							field: 'tabAllAmount',
+							title: '总保费',
+							width: 100
+						},
+						{
+							field: 'tabAgentName',
+							title: '代理人姓名',
+							width: 100
+						},
+						{
+							field: 'tabTeamOwnership',
+							title: '团队归属',
+							width: 100
+						},
+						{
+							field: 'tabAmountSate',
+							title: '收款状态',
+							width: 140
+						},
+						{
+							field: 'tabMessage',
+							title: '备注',
+							width: 100
+						},
+						{
+							field: 'tabCdPerson',
+							title: '出单人',
+							width: 100
+						},
+						{
+							field: 'tabWhPerson',
+							title: '维护人',
+							width: 120
+						},
+						{
+							field: 'tabCustomerMobile',
+							title: '客户电话',
+							width: 120
+						},
+						{
+							field: 'tabYgzhjqAmount',
+							title: '营改增后交强保费',
+							width: 120
+						},
+						{
+							field: 'tabYgzhsyAmount',
+							title: '营改增后商业保费',
+							width: 120
+						},
+						{
+							field: 'tabJbfjql',
+							title: '净保费交强率',
+							width: 120
+						},
+						{
+							field: 'tabCommissionAmount',
+							title: '佣金合计',
+							width: 120
+						},
+						{
+							field: 'tabCommissionOther',
+							title: '其他佣金',
+							width: 120
+						},
+						{
+							field: 'tabJfysAmount',
+							title: '净费应收',
+							width: 120
+						},
+						{
+							field: 'tabRealAmount',
+							title: '实收',
+							width: 120
+						},
+						{
+							field: 'tabZbfJ',
+							title: '总保费，净费',
+							width: 120
+						},
+						{
+							field: 'tabRealAmount',
+							title: '实收',
+							width: 120
+						},
+						{
+							field: 'tabWriteDate',
+							title: '实收',
+							width: 120
+						},
+						{
+							field: 'tabAnnotationsPerson',
+							title: '审核人',
+							width: 120
+						},
+						{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
+						
+					]
+				],
+				data: [{
+					"tabAgentName": "张三一一",
+					"tab_team_ownership": "李四二二",
+					"tabSafePerson": "王五三三",
+					"tabCarNum": "浙CE9N5E",
+					"shangye": "2001.01",
+					"jiaoqiang": "990.0",
+					"chechuan": "100.0",
+					"xiaojie": "14217.01",
+					"chudan": "2018-02-01",
+					"shiyong": "非运营客车",
+					"baoxian": "苍南人保",
+					"xubao": "续保",
+					"xianzhong": "车险",
+					"qudao": "传统",
+					"jiesuan": "日结",
+					"shoukuan": "已收全额",
+					"dakuan": "",
+					"fukuan": "",
+					"dakuanTime": "",
+					"startTime": "2016-10-14",
+					"outTime": "2016-10-14",
+					"luru": "2016-10-14",
+					"luruMan": "张三一一",
+					"bianhao": "1812451690"
+				}],
+				skin: 'line' //表格风格
+					,
+				even: true,
+				page: true //是否显示分页
+					,
+				limits: [10, 20, 30],
+				limit: 10 //每页默认显示的数量
+			});
+
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test1' //指定元素
+					
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test2' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test3' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test4' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test5' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test6' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test7' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#test8' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+				    format: 'yyyy-MM-dd HH:mm:ss',
+				    type: 'datetime',
+					elem: '#test9' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+				    format: 'yyyy-MM-dd HH:mm:ss',
+				    type: 'datetime',
+					elem: '#test10' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+				    format: 'yyyy-MM-dd HH:mm:ss',
+			    	type: 'datetime',
+					elem: '#test11' //指定元素
+				});
+			});
+		/* 	$(function(){    
+    var start = {    
+        elem: '#start', //选择ID为START的input    
+        format: 'YYYY/MM/DD hh:mm:ss', //自动生成的时间格式    
+        min: laydate.now(), //设定最小日期为当前日期    
+        max: '2099-06-16 23:59:59', //最大日期    
+        istime: true, //必须填入时间    
+        istoday: false,  //是否是当天    
+        start: laydate.now(0,"YYYY/MM/DD hh:mm:ss"),  //设置开始时间为当前时间    
+        choose: function(datas){    
+             end.min = datas; //开始日选好后，重置结束日的最小日期    
+             end.start = datas //将结束日的初始值设定为开始日    
+        }    
+    };  */
+			
+			i=1;
+			layui.use('upload', function(){
+			  var upload = layui.upload;
+            	userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			  //执行实例
+			  var uploadInst = upload.render({
+			    elem: '#testUp',
+			    url: '/yxbx/uploadfile',
+			   /*   auto: false                                 //自动上传,默认是打开的
+                , bindAction: '#btnUpload'                    //auto为false时，点击触发上传
+                , multiple: true                             //多文件上传
+                , number: 100 ,                              //multiple:true时有效 */
+               before: function(obj){
+               		layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+               		
+               /*  //预读本地文件示例，不支持ie8
+                  obj.preview(function(index, file, result){
+                   $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">');
+                  }); */
+                },
+			    data: {
+			    	'userId':userInfo.userId,
+			    	'trueSId':118
+			    	
+			    },
+			    done: function(res){
+			    res=res.data;
+			    var  imgUrl="http://47.105.144.221/yxbx/files/"+res.src;
+			 	
+			      //上传完毕回调
+			      $('#demo2').append(
+                    '<div id="" class="file-iteme">' +
+                    '<div class="handle"><span class="glyphicon glyphicon-trash"></span></div>' +
+                    '<img class="demo33" style="width: 100px;height: 100px;"  src='+ imgUrl +'>' +
+                    '<div class="info">' + res.src + '</div>' +
+                    '</div>'
+                  );
+                    if(i==1){
+                        $(document).ready(function(){
+                               //jquery方式
+	                          //调用示例
+	                        layer.photos({
+ 	                           photos: '#layer-photos-demo'
+ 	                          ,anim:-1//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+	                         }); 
+                         });
+                             i=2;
+                  }   
+    
+			      	layer.close(layer.index);
+			    }
+			    ,error: function(){
+			      //请求异常回调
+			    }
+			  });
+			});
+			
+			layui.use('upload', function(){
+			  var upload = layui.upload;
+            	userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			  //执行实例
+			  var uploadInst = upload.render({
+			    elem: '#testUp1',
+			    url: '/yxbx/uploadMsg_read',
+			   /*   auto: false                                 //自动上传,默认是打开的
+                , bindAction: '#btnUpload'                    //auto为false时，点击触发上传
+                , multiple: true                             //多文件上传
+                , number: 100 ,                              //multiple:true时有效 */
+                 accept: 'file',
+               before: function(obj){
+               		layer.msg('导入中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                });
+               		
+               /*  //预读本地文件示例，不支持ie8
+                  obj.preview(function(index, file, result){
+                   $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">');
+                  }); */
+                },
+			    data: {
+			    	'userId':userInfo.userId,
+			    	'trueSId':118
+			    	
+			    },
+			    done: function(res){
+			         res=res.data;
+			      
+			      	layer.close(layer.index);
+			    }
+			    ,error: function(){
+			      //请求异常回调
+			    }
+			  });
+			});
+			//监听工具条
+			table.on('tool(test1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			  var data = obj.data; //获得当前行数据
+			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			  var tr = obj.tr; //获得当前行 tr 的DOM对象
+			 
+			  if(layEvent === 'detail'){ //查看
+			    //do somehing
+			  } else if(layEvent === 'del'){ //删除
+			 
+			    layer.confirm('通过审核并付款么？', function(index){
+			    /*   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			      layer.close(index); */
+			    
+			     // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+			     /*  layer.close(index); */
+			      //向服务端发送删除指令
+			   
+			    });
+			  } else if(layEvent === 'edit'){ //编辑
+			 	 $("#tabCarNum1").attr("value",data.tabCarNum);
+			 	 $("#tabAgentName1").attr("value",data.tabAgentName);
+			 	 $("#tabCustomerMobile1").attr("value",data.tabCustomerMobile);
+			 	 $("#sPerson").attr("value",data.tabSafePerson);
+			 	 $("#tabCarState1").attr("value",data.tabCarState);
+			 	
+			 	 $("#test9").attr("value",data.tabStartDate);
+			 	 $("#test10").attr("value",data.tabQdDate);
+			 	 $("#test11").attr("value",data.tabEndDate);
+			 	 $("#syx").attr("value",data.tabCommercialInsurance);
+			 	 $("#jqx").attr("value",data.tabInsuranceCompanyName);
+			 	 $("#ccs").attr("value",data.tabTax);
+			 	/*  $("#ifxbSelect").attr("value",data.tab_tax); */
+			 	/*  $("#ifxbSelect").attr("value",data.tabTax); */
+			 	 $("#xj").attr("value",data.tabCommissionAmount);
+			  
+			  	//上传
+			
+			  	//弹出层
+				layui.use('layer', function() {
+					var $ = layui.jquery,
+					layer = layui.layer;
+		
+					layer.open({
+						type: 1,
+						title: ['编辑', 'font-size:18px;'],
+						end : function() {
+		                      $("#prompt").hide();
+		                       $('.demo33').parent().remove();		                      
+			                },
+			            btn: ['提交', '关闭'],
+							yes: function(index, layero) {
+							 
+								console.log('提交');
+							},
+							
+						content: $('#prompt'),
+					
+						skin: 'layui-layer-rim',
+						area: ['1320px', '800px'],
+						resize: false
+					});
+				});
+			
+			  }
+			});
+		$(document).on("mouseenter mouseleave", ".file-iteme", function(event){
+            if(event.type === "mouseenter"){
+                //鼠标悬浮
+                $(this).children(".info").fadeIn("fast");
+                $(this).children(".handle").fadeIn("fast");
+                                    			                
+            }else if(event.type === "mouseleave") {
+                //鼠标离开
+                $(this).children(".info").hide();
+                $(this).children(".handle").hide();
+            }
+        });
+		// 删除图片
+        $(document).on("click", ".file-iteme .handle", function(event){
+        	
+        	 var s= $(this);
+          	layer.confirm('您确定要删除该图片吗?',{btn: ['确定', '取消'],title:"提示"}, function(){
+          		layer.close(layer.index);
+              // s.parent().remove(); 
+              
+            });
+            
+
+        });
+	
+	 /*  $(document).ready(function(){
+        //jquery方式
+	    //调用示例
+	    layer.photos({
+ 	     photos: '#layer-photos-demo'
+ 	    ,anim:-1//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+	    }); 
+     });   */
+     
+	</script>
+	</body>
+
+</html>

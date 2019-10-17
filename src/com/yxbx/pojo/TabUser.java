@@ -20,7 +20,6 @@ public class TabUser implements java.io.Serializable {
 	private String tabPassword;
 	private Integer tabUserType;
 	private String tabUsername;
-	private String tabName;
 	private String tabMobile;
 	private Integer tabIsDelete;
 
@@ -104,12 +103,4 @@ public class TabUser implements java.io.Serializable {
 		this.tabIsDelete = tabIsDelete;
 	}
 
-	@Column(name = "tab_name")
-	public String getTabName() {
-		return tabName;
-	}
-
-	public void setTabName(String tabName) {
-		this.tabName = tabName;
-	}
 }

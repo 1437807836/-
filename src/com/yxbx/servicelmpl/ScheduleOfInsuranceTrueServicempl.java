@@ -143,72 +143,96 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
             listValues.add(String.valueOf(si.getTab_write_date_start() == null ? "1800-01-01" : si.getTab_write_date_start()));
             listValues.add(String.valueOf(si.getTab_write_date_end() == null ? new Timestamp(System.currentTimeMillis()) : si.getTab_write_date_end()));
 
+            sql.append(" and  tab_start_date >=:tabStartDateStart and tab_start_date<=:tabStartDateEnd  ");
+            list.add("tabStartDateStart");
+            list.add("tabStartDateEnd");
+            listValues.add(String.valueOf(si.getTabStartDateStart() == null ? "1800-01-01" : si.getTabStartDateStart()));
+            listValues.add(String.valueOf(si.getTabStartDateEnd() == null ? "4040-01-01" : si.getTabStartDateEnd()));
+
+            if (si.getTabPayDateStart() != null) {
+                sql.append(" and  tab_pay_date >=:tabPayDateStart ");
+                list.add("tabPayDateStart");
+                listValues.add(String.valueOf(si.getTabPayDateStart() == null ? "1800-01-01" : si.getTabPayDateStart()));
+            }
+            if (si.getTabPayDateEnd() != null) {
+                sql.append(" and  tab_pay_date<=:tabPayDateEnd  ");
+                list.add("tabPayDateEnd");
+                listValues.add(String.valueOf(si.getTabPayDateEnd() == null ? "4040-01-01" : si.getTabPayDateEnd()));
+            }
+            if (si.getTabIsCommit() != null) {
+                sql.append(" and   tab_isCommit=:tabIsCommit");
+                list.add("tabIsCommit");
+                listValues.add(String.valueOf(si.getTabIsCommit()));
+            }
             if (si.getTabCarNum() != null) {
                 sql.append(" and   tab_car_num=:tabCarNum");
                 list.add("tabCarNum");
-
                 listValues.add(String.valueOf(si.getTabCarNum()));
-
-
             }
-            if (si.getTabSafePerson() != null) {
-                sql.append(" and  tab_safe_person=:TabSafePerson");
-                list.add("TabSafePerson");
-
-                listValues.add(String.valueOf(si.getTabSafePerson()));
-
+            if (si.getTabIsRenewal() != null) {
+                sql.append(" and   tab_isRenewal=:tabIsRenewal");
+                list.add("tabIsRenewal");
+                listValues.add(String.valueOf(si.getTabIsRenewal()));
+            }
+            if (si.getTabCarNum() != null) {
+                sql.append(" and   tab_car_num=:tabCarNum");
+                list.add("tabCarNum");
+                listValues.add(String.valueOf(si.getTabCarNum()));
+            }
+            if (si.getTabAgentPay() != null) {
+                sql.append(" and  tab_agent_pay=:tabAgentPay");
+                list.add("tabAgentPay");
+                listValues.add(String.valueOf(si.getTabAgentPay()));
             }
             if (si.getTabYxState() != null) {
                 sql.append(" and  tab_yx_state=:TabYxState");
                 list.add("TabYxState");
-
                 listValues.add(String.valueOf(si.getTabYxState()));
-
-
             }
             if (si.getTabCarState() != null) {
                 sql.append(" and  tab_car_state=:TabCarState");
                 list.add("TabCarState");
-
                 listValues.add(String.valueOf(si.getTabCarState()));
-
             }
             if (si.getTabChannel() != null) {
                 sql.append(" and  tab_channel=:TabChannel");
                 list.add("TabChannel");
-
                 listValues.add(String.valueOf(si.getTabChannel()));
-
             }
             if (si.getTabInsuranceCompanyName() != null) {
                 sql.append(" and  tab_insurance_company_name=:TabInsuranceCompanyName");
                 list.add("TabInsuranceCompanyName");
                 listValues.add(String.valueOf(si.getTabInsuranceCompanyName()));
-
             }
             if (si.getTabCdPerson() != null) {
                 sql.append(" and  tab_cd_person=:TabCdPerson");
                 list.add("TabCdPerson");
-
                 listValues.add(String.valueOf(si.getTabCdPerson()));
-
             }
             if (si.getTabWhPerson() != null) {
                 sql.append(" and  tab_manager_user=:TabWhPerson");
                 list.add("TabWhPerson");
                 listValues.add(String.valueOf(si.getTabWhPerson()));
-
             }
             if (si.getTabAgentName() != null) {
-                sql.append(" and  tab_agent_name=:TabAgentName");
+                sql.append(" and  tab_agent_name like :TabAgentName");
                 list.add("TabAgentName");
-                listValues.add(String.valueOf(si.getTabAgentName()));
-
+                listValues.add(String.valueOf("%" + si.getTabAgentName() + "%"));
             }
             if (si.getTabTeamOwnership() != null) {
                 sql.append(" and  tab_team_ownership=:TabTeamOwnership");
                 list.add("TabTeamOwnership");
                 listValues.add(String.valueOf(si.getTabTeamOwnership()));
+            }
+            if (si.getTabAmountSate() != null) {
+                sql.append(" and  tab_amount_sate=:tabAmountSate");
+                list.add("tabAmountSate");
+                listValues.add(String.valueOf(si.getTabAmountSate()));
+            }
+            if (si.getTabIsAuditing() != null) {
+                sql.append(" and  tab_is_auditing=:tabIsAuditing");
+                list.add("tabIsAuditing");
+                listValues.add(String.valueOf(si.getTabIsAuditing()));
             }
         }
 
@@ -311,6 +335,132 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
         }
     }
 
+    @Override
+    public String updateInsuranceTabIsAuditing(String id, String tabIsAuditing) {
+        TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue = datadao.getObjectById(TabScheduleOfInsuranceTrue.class, Integer.parseInt(id));
+        scheduleOfInsuranceTrue.setTabIsAuditing(tabIsAuditing);
+        datadao.updateObject(scheduleOfInsuranceTrue);
+        return "操作成功！";
+    }
+
+    @Override
+    public String commitInsuranceTabIsAuditing(String id) {
+        TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue = datadao.getObjectById(TabScheduleOfInsuranceTrue.class, Integer.parseInt(id));
+        if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
+            String sql = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+            String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+            String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+            List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, params, values);
+            if (list != null && list.size() > 0) {
+//                scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
+//                datadao.updateObject(scheduleOfInsuranceTrue);
+                return "1";
+            } else {
+                scheduleOfInsuranceTrue.setTabIsAuditing("预审中");
+                scheduleOfInsuranceTrue.setTabIsCommit("已提交");
+                datadao.updateObject(scheduleOfInsuranceTrue);
+                return "0";
+            }
+        } else {
+            return "2";
+        }
+    }
+
+    @Override
+    public String commitManyInsuranceTabIsAuditing(String idStr) {
+        int errorNum = 0;//失败
+        int successNum = 0;//成功
+        int repeatNum = 0;//已经提交过了的
+        if (idStr.length() == 0) {
+            idStr = "0";
+        }
+        String sql = "from TabScheduleOfInsuranceTrue where id in(" + idStr + ")";
+        List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, null, null);
+        for (TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue : list) {
+            if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
+                String sql2 = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+                String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+                String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+                List<TabScheduleOfInsuranceTrue> list2 = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql2, params, values);
+                if (list2 != null && list2.size() > 0) {
+//                    scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
+//                    datadao.updateObject(scheduleOfInsuranceTrue);
+                    errorNum++;
+                } else {
+                    scheduleOfInsuranceTrue.setTabIsAuditing("预审中");
+                    scheduleOfInsuranceTrue.setTabIsCommit("已提交");
+                    datadao.updateObject(scheduleOfInsuranceTrue);
+                    successNum++;
+                }
+            } else {
+                repeatNum++;
+            }
+        }
+        StringBuffer sb = new StringBuffer();
+        if (successNum == 0 && errorNum == 0 && repeatNum == 0) {
+            sb.append("操作了 0 条数据！");
+        }else {
+            if (successNum > 0) {
+                sb.append(successNum + "条提交成功！");
+            }
+            if (errorNum > 0) {
+                sb.append(errorNum + "条疑似重复数据，提交失败！");
+            }
+            if (repeatNum > 0) {
+                sb.append(repeatNum + "条已经提交过了，请勿重复提交！");
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String commitSpecialInsuranceTabIsAuditing(String idStr) {
+        int errorNum = 0;//失败
+        int successNum = 0;//成功
+        int repeatNum = 0;//已经提交过了的
+        if (idStr.length() == 0) {
+            idStr = "0";
+        }
+        String sql = "from TabScheduleOfInsuranceTrue where id in(" + idStr + ")";
+        List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, null, null);
+        for (TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue : list) {
+            if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
+                String sql2 = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+                String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+                String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+                List<TabScheduleOfInsuranceTrue> list2 = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql2, params, values);
+                if (list2 != null && list2.size() > 0) {
+                    scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
+                    scheduleOfInsuranceTrue.setTabIsCommit("已提交");
+                    datadao.updateObject(scheduleOfInsuranceTrue);
+                    errorNum++;
+                } else {
+                    scheduleOfInsuranceTrue.setTabIsAuditing("预审中");
+                    scheduleOfInsuranceTrue.setTabIsCommit("已提交");
+                    datadao.updateObject(scheduleOfInsuranceTrue);
+                    successNum++;
+                }
+            } else {
+                repeatNum++;
+            }
+        }
+        StringBuffer sb = new StringBuffer();
+        if (successNum == 0 && errorNum == 0 && repeatNum == 0) {
+            sb.append("操作了 0 条数据！");
+        }else {
+            if (successNum > 0) {
+                sb.append(successNum + "条提交成功！");
+            }
+            if (errorNum > 0) {
+                sb.append(successNum + "条经过特殊政策提交成功！");
+            }
+            if (repeatNum > 0) {
+                sb.append(successNum + "条已经提交过了，请勿重复提交！");
+            }
+        }
+        return sb.toString();
+    }
+
     /***
      * 读取EXCEL文件中的内容
      *
@@ -360,15 +510,18 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                 for (int m = 1; m < rowCount; m++) {// 从第二行开始循环行
                                     /** 试题类型，放在最外面，便于答案的判断 */
                                     int type = 0;
+                                    SimpleDateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式1
+                                    SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式2
+                                    Date date = null;
                                     // 建立空的对象
                                     TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue = new TabScheduleOfInsuranceTrue();
+                                    tabScheduleOfInsuranceTrue.setTabUserId(userId);
+                                    tabScheduleOfInsuranceTrue.setTabWriteDate(new Timestamp(System.currentTimeMillis()));
+                                    tabScheduleOfInsuranceTrue.setTabIsAuditing("待提交");
                                     for (int n = 0; n < columnCount; n++) {// 循环列
                                         String temp2 = "";// 存放内容
                                         cell = sheet.getCell(n, m);
                                         temp2 = cell.getContents().toString().trim();
-                                        SimpleDateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式1
-                                        SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式2
-                                        Date date = null;
                                         if (n == 0) {// 保批单日期
                                             try {
                                                 if (temp2.length() > 10) {
@@ -713,12 +866,21 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
             listValues.add(String.valueOf(si.getTabStartDateStart() == null ? "1800-01-01" : si.getTabStartDateStart()));
             listValues.add(String.valueOf(si.getTabStartDateEnd() == null ? "4040-01-01" : si.getTabStartDateEnd()));
 
-            sql.append(" and  tab_pay_date >=:tabPayDateStart and tab_pay_date<=:tabPayDateEnd  ");
-            list.add("tabPayDateStart");
-            list.add("tabPayDateEnd");
-            listValues.add(String.valueOf(si.getTabPayDateStart() == null ? "1800-01-01" : si.getTabPayDateStart()));
-            listValues.add(String.valueOf(si.getTabPayDateEnd() == null ? "4040-01-01" : si.getTabPayDateEnd()));
-
+            if (si.getTabPayDateStart() != null) {
+                sql.append(" and  tab_pay_date >=:tabPayDateStart ");
+                list.add("tabPayDateStart");
+                listValues.add(String.valueOf(si.getTabPayDateStart() == null ? "1800-01-01" : si.getTabPayDateStart()));
+            }
+            if (si.getTabPayDateEnd() != null) {
+                sql.append(" and  tab_pay_date<=:tabPayDateEnd  ");
+                list.add("tabPayDateEnd");
+                listValues.add(String.valueOf(si.getTabPayDateEnd() == null ? "4040-01-01" : si.getTabPayDateEnd()));
+            }
+            if (si.getTabIsCommit() != null) {
+                sql.append(" and   tab_isCommit=:tabIsCommit");
+                list.add("tabIsCommit");
+                listValues.add(String.valueOf(si.getTabIsCommit()));
+            }
             if (si.getTabCarNum() != null) {
                 sql.append(" and   tab_car_num=:tabCarNum");
                 list.add("tabCarNum");

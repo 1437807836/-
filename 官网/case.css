@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body,html{
+  width: 100%;
+  font-size: 12px;
+}
+
+.wrap {
+  width: 80%;
+  margin: 0 auto;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+/* --------------------------------------------------------------头部样式 */
+header {
+  width: 100%;
+  height: 42px;
+  color: white;
+  line-height: 42px;
+  background: rgba(11, 16, 29, 1);
+  /* overflow: hidden; */
+}
+
+header > .wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 20%;
+  height: 42px;
+}
+
+.nav {
+  width: 50%;
+  height: 42px;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+  font-size: 14px;
+}
+.nav li a:hover {
+  color: rgba(8, 102, 166, 1);
+}
+
+/* -------------------------------------------------------------内容 */
+.main {
+  width: 100%;
+}
+
+.floor-1,
+.floor-2,
+.floor-3 {
+  width: 100%;
+}
+.floor-1 img {
+  display: block;
+  width: 100%;
+}
+
+.floor-2 img {
+  display: block;
+  width: 100%;
+}
+
+.floor-3 img {
+  display: block;
+  width: 100%;
+}
+/* --------------------------------------------------------------底部 */
+footer {
+  width: 100%;
+}
+.foot-top {
+  height: 102px;
+  background: #eee;
+}
+.foot-bot {
+  height: 37px;
+  background: #000;
+}

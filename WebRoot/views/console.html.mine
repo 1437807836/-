@@ -770,6 +770,7 @@
     </div>
 </blockquote>
 </div> -->
+
             <div class="layui-upload">
                 <button type="button" class="layui-btn" id="testUp">附件上传</button>
 
@@ -950,16 +951,13 @@
                     录入人：<span id="detail-9-3"></span>
                 </div>
             </div>
-            <br />
-            <br />
             <!-- 详情图片上传 -->
             <div class="layui-upload">
-                <!-- <button type="button" class="layui-btn" id="testUp1">附件上传</button> -->
-                <h3 style="margin-left: 40px; font-size: 25px;;">图片详情：</h3>
+                <button type="button" class="layui-btn" id="testUp1">附件上传</button>
 
                 <blockquote id="demo12" class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;width: 100%">
                     <div id="layer-photos-demo" class="layer-photos-demo">
-                        <div class="layui-upload-list uploader-list" style="overflow: auto;" id="demo3">
+                        <div class="layui-upload-list uploader-list" style="overflow: auto;" id="demo2">
 
 
                         </div>
@@ -1841,7 +1839,6 @@
                                 ".layui-table-hover").data('index'));
                             var obj = res.data[id];
                             var data = obj.data;
-                            var ajaxId = obj.id
                             // 详情数据
                             // console.log(id, obj)
                             // 第一层数据
@@ -1893,59 +1890,6 @@
                             // $('#detail-10-1').html(obj.tabZbfJ)
                             // $('#detail-10-1').html(obj.tabMessage)
                             // $('#detail-10-1').html(obj.id);
-                            getPhoto(ajaxId)
-                            function getPhoto(id) {
-                                $.ajax({
-                                    url: '/yxbx/queryFile',
-                                    type: 'POST',
-                                    data: {
-                                        'trueSId': id,
-                                        'userId': userInfo.userId
-                                    },
-                                    success: function (res) {
-                                        var data = eval('(' +
-                                            res + ')');
-                                        console.log(data);
-                                        if (data.msg === '权限不足') {
-                                            alert('您的权限为' + userInfo.user_type + ',您只能增加比它大的用户权限');
-                                        } else if (data.code === 0) {
-                                            // 编辑图片获取图片数据
-                                            var FileList = data.data;
-                                            console.log(FileList)
-                                            for (var i = 0; i < FileList.length; i++) {
-
-                                                var imgUrl = "http://localhost:8082/yxbx/files/" + FileList[i].tabFileAddress;
-
-                                                $('#demo3').append('<div id="" class="file-iteme">' + '<div class="handle" >' +
-                                                    FileList[i].tabFileAddress + '</div>' +
-                                                    '<img class="demo34" onclick="openImg(this)" style="width: 100px;height: 100px;"  src=' +
-                                                    imgUrl + '>' + '<div class="info">' + '点击头部删除' + '</div>' + '</div>');
-
-                                                /*   if(i==0&&pt==null){
-                                                    $(document).ready(function(){
-                                                      //jquery方式
-                                                     //调用示例
-                                                    pt=  layer.photos({
-                                                       photos: '#layer-photos-demo'
-                                                       ,anim:-1//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-                                                      });
-                                                    });
-                                                   }  */
-
-                                            }
-
-                                            //	layer.close(layer.index);
-                                        } else {
-                                            alert(data.msg);
-
-                                        }
-                                    },
-                                    error: function (res) {
-                                        console.log(res);
-                                    }
-                                });
-
-                            }
 
 
 
@@ -2232,38 +2176,37 @@
                                                 jsonStr = null;
                                             }
 
-
-                                            // $.ajax({
-                                            //     url: '/yxbx/uploadSoi',
-                                            //     type: 'POST',
-                                            //     data: {
-                                            //         'soiId': obj.id,
-                                            //         'userId': userInfo.userId,
-                                            //         'updateParams': jsonStr
-                                            //     },
-                                            //     success: function (res) {
-                                            //         var data = eval('(' + res + ')');
-                                            //         console.log(data);
-                                            //         if (data.msg === '权限不足') {
-                                            //             alert('您的权限为' + userInfo.user_type + ',您只能增加比它大的用户权限');
-                                            //         } else if (data.code === 0) {
-                                            //             //这里以搜索为例
-                                            //             location.reload();
-                                            //             layer.closeAll();
-                                            //             alert("修改成功");
-                                            //             tableIns.reload({
-                                            //                 page: {
-                                            //                     curr: 1 //重新从第 1 页开始
-                                            //                 }
-                                            //             });
-                                            //         } else {
-                                            //             alert(data.msg);
-                                            //         }
-                                            //     },
-                                            //     error: function (res) {
-                                            //         console.log(res);
-                                            //     }
-                                            // });
+                                            $.ajax({
+                                                url: '/yxbx/uploadSoi',
+                                                type: 'POST',
+                                                data: {
+                                                    'soiId': checkitems[0].id,
+                                                    'userId': userInfo.userId,
+                                                    'updateParams': jsonStr
+                                                },
+                                                success: function (res) {
+                                                    var data = eval('(' + res + ')');
+                                                    console.log(data);
+                                                    if (data.msg === '权限不足') {
+                                                        alert('您的权限为' + userInfo.user_type + ',您只能增加比它大的用户权限');
+                                                    } else if (data.code === 0) {
+                                                        //这里以搜索为例
+                                                        location.reload();
+                                                        layer.closeAll();
+                                                        alert("修改成功");
+                                                        tableIns.reload({
+                                                            page: {
+                                                                curr: 1 //重新从第 1 页开始
+                                                            }
+                                                        });
+                                                    } else {
+                                                        alert(data.msg);
+                                                    }
+                                                },
+                                                error: function (res) {
+                                                    console.log(res);
+                                                }
+                                            });
                                             console.log('提交');
                                         },
 
@@ -3440,7 +3383,6 @@
                                 if (data.msg === '权限不足') {
                                     alert('您的权限为' + userInfo.user_type + ',您只能增加比它大的用户权限');
                                 } else if (data.code === 0) {
-                                    // 编辑图片获取图片数据
                                     var FileList = data.data;
                                     for (var i = 0; i < FileList.length; i++) {
 

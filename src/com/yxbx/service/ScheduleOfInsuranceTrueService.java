@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yxbx.bean.SeachInsurance;
 import com.yxbx.pojo.TabScheduleOfInsuranceTrue;
+import com.yxbx.pojo.TabUser;
 
 public interface ScheduleOfInsuranceTrueService {
 	public abstract TabScheduleOfInsuranceTrue queryAllById(Integer Id);
@@ -37,4 +38,10 @@ public interface ScheduleOfInsuranceTrueService {
 	String commitManyInsuranceTabIsAuditing(String idStr);
 
 	String commitSpecialInsuranceTabIsAuditing(String idStr);
+
+	void addInsuranceTrueFile(String idStr, String businessID);
+
+	void addScheduleOfInsurance2(TabScheduleOfInsuranceTrue tabSoi);
+
+	String addInsurancePolicyOfExcel(String filePath, String fileName, TabUser tu);
 }

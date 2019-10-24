@@ -174,6 +174,7 @@ public class NewFileAction extends BaseAction {
     String isSuccessive;//是否续保
     String nature;//性质
     String quality;//核定质量
+    String tabRemark;//备注
     int insurerPolicyId;//政策id;
     int insurerId;//保险公司id
     String payId;//付款回单附件
@@ -352,7 +353,7 @@ public class NewFileAction extends BaseAction {
             }
             TabInsurerPolicy tabSoi = gson.fromJson(jsonInsurerPolicyStr, TabInsurerPolicy.class);
 
-            List<TabInsurerPolicy> list = ipSrevice.queryAllInsurerPolicy(tabSoi, pageSize, page);
+            List<TabInsurerPolicy> list = ipSrevice.queryAllInsurerPolicy(tabSoi, limit, page);
             List<TabInsurerPolicy> list1 = ipSrevice.queryInsurerPolicyAll(tabSoi);
             map.put("code", 0);
             map.put("msg", "查询成功");
@@ -361,7 +362,7 @@ public class NewFileAction extends BaseAction {
             //  map.put("data", count);
         } else {
 
-            List<TabInsurerPolicy> list = ipSrevice.queryAllInsurerPolicy(null, pageSize, page);
+            List<TabInsurerPolicy> list = ipSrevice.queryAllInsurerPolicy(null, limit, page);
             List<TabInsurerPolicy> list1 = ipSrevice.queryInsurerPolicyAll();
             // map.put("data", count);
             map.put("code", 0);
@@ -435,6 +436,123 @@ public class NewFileAction extends BaseAction {
 
     }
 
+    //批量审核保险政策
+    @Action(value = "updateManyInsurerPolicy")
+    public String updateManyInsurerPolicy() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String insurerPolicyIds = request.getParameter("insurerPolicyIds");
+        int successNum = 0;
+        int deleteNum = 0;
+        int rejectedNum = 0;
+        if (userId > 0) {
+            TabUser tu = userService.queryAllByUserId(userId);
+            if (tu != null && tu.getTabIsDelete() == 0 && tu.getTabUserType() < 3) {
+                String[] split = insurerPolicyIds.split(",");
+                for (int i = 0; i < split.length; i++) {
+                    TabInsurerPolicy tip = ipSrevice.queryInsurerPolicyById(Integer.parseInt(split[i]));
+                    if (trueSId == 1) {
+                        if (tip.getTabIsDelete().equals("0")) {
+                            tip.setTabExamineAndVerify("是");
+                            tip.setTabExaminePerson(tu.getTabUsername());
+                            tip.setTabExamineTime(new Timestamp(System.currentTimeMillis()));
+                            ipSrevice.updateInsurerPolicy(tip);
+                            successNum++;
+                        } else {
+                            deleteNum++;
+                        }
+                    } else if (trueSId == 2) {
+                        if (tip.getTabIsDelete().equals("0")) {
+                            tip.setTabExamineAndVerify("未通过");
+                            tip.setTabExaminePerson(tu.getTabUsername());
+                            tip.setTabExamineTime(new Timestamp(System.currentTimeMillis()));
+                            ipSrevice.updateInsurerPolicy(tip);
+                            rejectedNum++;
+                        } else {
+                            deleteNum++;
+                        }
+                    }
+                }
+                if (trueSId == 1) {
+                    map.put("code", 0);
+                    StringBuffer sb = new StringBuffer();
+                    if (successNum > 0) {
+                        sb.append(successNum + " 条政策已审核通过");
+                    }
+                    if (deleteNum > 0) {
+                        sb.append("  " + deleteNum + " 条政策已经被删除，操作失败");
+                    }
+                    map.put("msg", sb.toString());
+                } else if (trueSId == 2) {
+                    map.put("code", 0);
+                    StringBuffer sb = new StringBuffer();
+                    if (rejectedNum > 0) {
+                        sb.append(rejectedNum + "条政策已被驳回");
+                    }
+                    if (deleteNum > 0) {
+                        sb.append("  " + deleteNum + "条政策已经被删除，操作失败");
+                    }
+                    map.put("msg", sb.toString());
+                }
+            } else {
+                map.put("code", 3);
+                map.put("msg", "权限不足");
+            }
+        } else {
+            map.put("code", 2);
+            map.put("msg", "请登录");
+        }
+        strToJson(map);
+        return null;
+    }
+
+    //批量删除保险政策
+    @Action(value = "deleteManyInsurerPolicy")
+    public String deleteManyInsurerPolicy() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String insurerPolicyIds = request.getParameter("insurerPolicyIds");
+        int successNum = 0;
+        int deleteNum = 0;
+        if (userId > 0) {
+            TabUser tu = userService.queryAllByUserId(userId);
+            if (tu != null) {
+                String[] split = insurerPolicyIds.split(",");
+                for (int i = 0; i < split.length; i++) {
+                    TabInsurerPolicy tip = ipSrevice.queryInsurerPolicyById(Integer.parseInt(split[i]));
+                    if (tip.getTabIsDelete().equals("0")) {
+                        tip.setTabIsDelete("1");
+                        ipSrevice.updateInsurerPolicy(tip);
+                        map.put("code", 0);
+                        map.put("msg", "删除成功");
+                        successNum++;
+                    } else {
+                        map.put("code", 4);
+                        map.put("msg", "该政策已经被删除");
+                        deleteNum++;
+                    }
+                }
+                map.put("code", 0);
+                StringBuffer sb = new StringBuffer();
+                if (successNum > 0) {
+                    sb.append(successNum + "条政策删除成功");
+                }
+                if (deleteNum > 0) {
+                    sb.append("  " + deleteNum + "条政策已经被删除，操作失败");
+                }
+                map.put("msg", sb.toString());
+            } else {
+                map.put("code", 3);
+                map.put("msg", "权限不足");
+            }
+        } else {
+            map.put("code", 2);
+            map.put("msg", "请登录");
+        }
+        strToJson(map);
+        return null;
+    }
+
     //删除保险政策
     @Action(value = "deleteInsurerPolicy")
     public String deleteInsurerPolicy() {
@@ -489,6 +607,7 @@ public class NewFileAction extends BaseAction {
                             tip.setTabAgentId(ta.getTabAgentId());
                             tip.setTabState(tabBxState.getTabState());
                             tip.setTabChannelName(channelName);
+                            tip.setTabRemark(tabRemark);
                             tip.setTabEndTime(Util.toTimestamp(endTime));
                             tip.setTabExamineAndVerify("否");//审核状态
                             tip.setTabExaminePerson("待审核");
@@ -507,17 +626,13 @@ public class NewFileAction extends BaseAction {
                             tip.setTabIsDelete("0");
                             ipSrevice.addInsurerPolicy(tip);
                         }
-
                         map.put("code", 0);
                         map.put("msg", "添加成功");
-
                     }
-
                 } else {
                     map.put("code", 4);
                     map.put("msg", "请添加代理人");
                 }
-
             } else {
                 map.put("code", 3);
                 map.put("msg", "权限不足");
@@ -526,7 +641,51 @@ public class NewFileAction extends BaseAction {
             map.put("code", 2);
             map.put("msg", "请登录");
         }
+        strToJson(map);
+        return null;
+    }
 
+    //编辑保险政策
+    @Action(value = "updatePolicy")
+    public String updatePolicy() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (userId > 0) {
+            TabUser tu = userService.queryAllByUserId(userId);
+            if (tu != null && tu.getTabIsDelete() == 0 && tu.getTabUserType() < 3) {
+                TabInsurerPolicy tip = ipSrevice.queryInsurerPolicyById(insurerPolicyId);
+                if (trueSId == 1) {
+                    if (tip.getTabIsDelete().equals("0")) {
+                        tip.setTabExamineAndVerify("是");
+                        tip.setTabExaminePerson(tu.getTabUsername());
+                        tip.setTabExamineTime(new Timestamp(System.currentTimeMillis()));
+                        ipSrevice.updateInsurerPolicy(tip);
+                        map.put("code", 0);
+                        map.put("msg", "审核通过");
+                    } else {
+                        map.put("code", 4);
+                        map.put("msg", "该政策已经被删除");
+                    }
+                } else if (trueSId == 2) {
+                    if (tip.getTabIsDelete().equals("0")) {
+                        tip.setTabExamineAndVerify("未通过");
+                        tip.setTabExaminePerson(tu.getTabUsername());
+                        tip.setTabExamineTime(new Timestamp(System.currentTimeMillis()));
+                        ipSrevice.updateInsurerPolicy(tip);
+                        map.put("code", 0);
+                        map.put("msg", "操作成功，已驳回");
+                    } else {
+                        map.put("code", 4);
+                        map.put("msg", "该政策已经被删除");
+                    }
+                }
+            } else {
+                map.put("code", 3);
+                map.put("msg", "权限不足");
+            }
+        } else {
+            map.put("code", 2);
+            map.put("msg", "请登录");
+        }
         strToJson(map);
         return null;
     }
@@ -1379,6 +1538,64 @@ public class NewFileAction extends BaseAction {
         return null;
     }
 
+    //新建
+    @Action(value = "addTabScheduleOfInsuranceTrue")
+    public String addTabScheduleOfInsuranceTrue() {
+        Map<String, Object> mapResult = new HashMap<String, Object>();
+        Gson gson = new Gson();
+        if (tsoiStrJson != null && tsoiStrJson.contains("{") && tsoiStrJson.length() > 3) {
+            //String[] s=	jsonInsurerPolicyStr.split("{");
+            String s = String.valueOf(tsoiStrJson.charAt(1));//判斷前端拼接是否有錯誤,多個逗號
+            if (s.trim().equals(",")) {
+                tsoiStrJson = "{" + tsoiStrJson.substring(2, tsoiStrJson.length());
+            }
+
+        }
+
+        TabScheduleOfInsuranceTrue tabSoi = gson.fromJson(tsoiStrJson, TabScheduleOfInsuranceTrue.class);
+        if (tabSoi != null) {
+            TabUser tu = userService.queryAllByUserId(userId);
+            if (tu != null && tu.getTabIsDelete() == 0) {
+                tabSoi.setTabWhPerson(tu.getTabUsername());
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String date1 = df.format(new Date());
+                tabSoi.setTabWriteDate(Timestamp.valueOf(date1));
+//                tabSoi.setId(null);
+                tabSoi.setTabIsAuditing("待提交");
+                tabSoi.setTabIsCommit("未提交");
+                tabSoi.setTabBusinessID(System.currentTimeMillis() + "");
+                tabSoi.setTabUserId(userId);
+                soiTrueService.addScheduleOfInsurance2(tabSoi);
+
+                mapResult.put("code", 0);
+                mapResult.put("data", tabSoi.getTabBusinessID());
+                mapResult.put("msg", "操作成功");
+            } else {
+                mapResult.put("code", 3);
+                mapResult.put("msg", "上传者不存在");
+            }
+        } else {
+            mapResult.put("code", 3);
+            mapResult.put("msg", "上传失败");
+        }
+        strToJson(mapResult);
+        return null;
+    }
+
+    //新建
+    @Action(value = "addInsuranceTrueFile")
+    public String addInsuranceTrueFile() {
+        Map<String, Object> mapResult = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String idStr = request.getParameter("fileIds");
+        String businessID = request.getParameter("businessID");
+        soiTrueService.addInsuranceTrueFile(idStr, businessID);
+        mapResult.put("code", 0);
+        mapResult.put("msg", "操作成功");
+        strToJson(mapResult);
+        return null;
+    }
+
     @Action(value = "AuditingPost")    //查询待审核表单
     public String AuditingPost() {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1528,7 +1745,7 @@ public class NewFileAction extends BaseAction {
             FileInputStream in = null;
             FileOutputStream out = null;
             Date date = new Date();
-            String filePath = dir + "\\" + date.getTime() + "_" + wh_person + "_" + fileFileName;
+            String filePath = dir + "/" + date.getTime() + "_" + wh_person + "_" + fileFileName;
             try {
                 in = new FileInputStream(file);
 
@@ -1547,7 +1764,7 @@ public class NewFileAction extends BaseAction {
             } finally {
             }
             ExcelUtil el = new ExcelUtil();
-            //	el.readXls("H:\\MobileFile\\工作状态记录1.xls");
+            //	el.readXls("H:/MobileFile/工作状态记录1.xls");
             List<Map<String, Object>> list = el.readXlsx(filePath);
             List<TabScheduleOfInsurance> tsiList = new ArrayList<TabScheduleOfInsurance>();
 
@@ -1744,9 +1961,13 @@ public class NewFileAction extends BaseAction {
                     mapResult.put("code", 7);
                     mapResult.put("msg", "无权操作");
                 }
+            } else {
+                for (TabInsuranceFile tabInsuranceFile : listFile) {
+                    ifService.deleteInsuranceFile(tabInsuranceFile);
+                }
+                mapResult.put("code", 1);
+                mapResult.put("msg", "操作成功");
             }
-
-
         } else {
             mapResult.put("code", 7);
             mapResult.put("msg", "请登录");
@@ -1774,7 +1995,7 @@ public class NewFileAction extends BaseAction {
         String f = df.format(new Date());
 
         String returnMessage = "";
-        String filePath = ServletActionContext.getServletContext().getRealPath("files") + "\\importiInsurance\\" + f + "\\";// + File.separator;
+        String filePath = ServletActionContext.getServletContext().getRealPath("files") + "/importiInsurance/" + f + "/";// + File.separator;
         File dir = new File(filePath);
         //判断文件是否上传，如果上传的话将会创建该目录
         if (!dir.exists()) {
@@ -1814,6 +2035,92 @@ public class NewFileAction extends BaseAction {
         return null;
     }
 
+    /**
+     * 导入保险政策
+     * @return
+     * @throws Exception
+     */
+    @Action(value = "importiInsurancePolicy")
+    public String importiInsurancePolicy() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        TabUser tu = userService.queryAllByUserId(userId);
+        if (tu != null && tu.getTabUserType() < 3 && tu.getTabIsDelete() == 0) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
+            String f = df.format(new Date());
+
+            String returnMessage = "";
+            String filePath = ServletActionContext.getServletContext().getRealPath("files") + "/importiInsurancePolicy/" + f + "/";// + File.separator;
+            File dir = new File(filePath);
+            //判断文件是否上传，如果上传的话将会创建该目录
+            if (!dir.exists()) {
+                System.out.println("文件不存在1");
+                dir.mkdir();
+            }
+            File fullFile = file;
+            String fileName = fileFileName;
+            String realFilePath = filePath + fileName;
+            try {
+                BufferedInputStream is = new BufferedInputStream(new FileInputStream(fullFile));
+                BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(realFilePath));
+                IOUtils.copy(is, os);
+                is.close();
+                os.flush();
+                os.close();
+                // 开始解析文件，添加保单
+
+                returnMessage = soiTrueService.addInsurancePolicyOfExcel(filePath, fileName, tu);
+
+            /*for (TabBxState tabBxState : list) {
+                tip.setTabAgent(ta.getTabAgentName());
+                tip.setTabInsurerId(insurerId);
+                tip.setTabInsurerName(tb.getTabInsurerName());
+                tip.setTabInsurerId(tb.getId());
+                tip.setTabAgentId(ta.getTabAgentId());
+                tip.setTabState(tabBxState.getTabState());
+                tip.setTabChannelName(channelName);
+                tip.setTabEndTime(Util.toTimestamp(endTime));
+                tip.setTabExamineAndVerify("否");//审核状态
+                tip.setTabExaminePerson("待审核");
+                tip.setTabExamineTime(null);
+                tip.setTabBxStateId(tabBxState.getId());
+
+                tip.setTabExpenditure(tabBxState.getTabExpenditure());//支出
+                tip.setTabIncome(tabBxState.getTabIncome());//收入
+                tip.setTabInvoice(tabBxState.getTabInvoice());//开票
+                tip.setTabIsSuccessive(isSuccessive);
+                tip.setTabNature(nature);//性质
+                tip.setTabQuality(quality);
+                tip.setTabStartTime(new Timestamp(System.currentTimeMillis()));
+                tip.setTabSubmitTime(new Timestamp(System.currentTimeMillis()));
+                tip.setTabWritePerson(tu.getTabUsername());
+                tip.setTabIsDelete("0");
+                ipSrevice.addInsurerPolicy(tip);
+            }*/
+
+                if ("".equals(returnMessage.trim())) {
+//                map.put("data", "");
+                    map.put("code", 0);
+                    map.put("msg", "导入成功！");
+                } else {
+//                map.put("data", "");
+                    map.put("code", 0);
+                    map.put("msg", returnMessage);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.printStackTrace();
+//            map.put("data", "");
+                map.put("code", 2);
+                map.put("msg", "上传失败！");
+            }
+        } else {
+            map.put("code", 3);
+            map.put("msg", "权限不足");
+        }
+        strToJson(map);
+        return null;
+    }
+
     @Action(value = "uploadfile")
     public String uploadfile() {
         Map<String, Object> mapResult = new HashMap<String, Object>();
@@ -1822,7 +2129,7 @@ public class NewFileAction extends BaseAction {
         String f = df.format(new Date());
 
 
-        String path = ServletActionContext.getServletContext().getRealPath("files") + "\\" + f + "\\";
+        String path = ServletActionContext.getServletContext().getRealPath("files") + "/" + f + "/";
         File dir = new File(path);
         //判断文件是否上传，如果上传的话将会创建该目录
         if (!dir.exists()) {
@@ -1844,7 +2151,7 @@ public class NewFileAction extends BaseAction {
             fileFileName = fileFileName.substring(fileFileName.length() - 4, fileFileName.length());
 
             fileFileName = (int) (1 + Math.random() * (10000000 - 1 + 1)) + System.currentTimeMillis() + fileFileName;
-            out = new FileOutputStream(dir + "\\" + fileFileName);
+            out = new FileOutputStream(dir + "/" + fileFileName);
             byte[] b = new byte[1024 * 1024];//每次写入的大小
             int i = 0;
             while ((i = in.read(b)) > 0) {
@@ -1867,13 +2174,13 @@ public class NewFileAction extends BaseAction {
                     if (soi != null) {
                         if (soi.getTabUserId() == userId || tu.getTabUserType() < 3) {
                             TabInsuranceFile ti = new TabInsuranceFile();
-                            ti.setTabFileAddress(f + "\\" + fileFileName);
+                            ti.setTabFileAddress(f + "/" + fileFileName);
                             ti.setTabInsuranceId(soi.getId());
                             ti.setTabUploadDate(new Timestamp(System.currentTimeMillis()));
                             ti.setTabUserId(userId);
                             ifService.addInsuranceFile(ti);
                             Map<String, Object> map1 = new HashMap<String, Object>();
-                            map1.put("src", f + "\\" + fileFileName);
+                            map1.put("src", f + "/" + fileFileName);
                             mapResult.put("data", map1);
                             mapResult.put("code", 0);
                             mapResult.put("msg", "上传成功");
@@ -1888,16 +2195,14 @@ public class NewFileAction extends BaseAction {
                     TabScheduleOfInsuranceTrue soit = soiTrueService.queryAllById(trueSId);
                     if (soit.getTabUserId() == userId || tu.getTabUserType() < 3) {
                         TabInsuranceFile ti = new TabInsuranceFile();
-                        ti.setTabFileAddress(f + "\\" + fileFileName);
+                        ti.setTabFileAddress(f + "/" + fileFileName);
                         ti.setTabInsuranceTrueId(soit.getId());
                         ti.setTabUploadDate(new Timestamp(System.currentTimeMillis()));
                         ti.setTabUserId(userId);
-
                         ifService.addInsuranceFile(ti);
-                        mapResult.put("code", 0);
-                        mapResult.put("msg", "上传成功");
                         Map<String, Object> map1 = new HashMap<String, Object>();
-                        map1.put("src", f + "\\" + fileFileName);
+                        map1.put("src", f + "/" + fileFileName);
+                        mapResult.put("code", 0);
                         mapResult.put("msg", "上传成功");
                         mapResult.put("data", map1);
                     } else {
@@ -1915,15 +2220,14 @@ public class NewFileAction extends BaseAction {
                             }
 
                             TabInsuranceFile ti = new TabInsuranceFile();
-                            ti.setTabFileAddress(f + "\\" + fileFileName);
+                            ti.setTabFileAddress(f + "/" + fileFileName);
                             ti.setTabPayId(Integer.parseInt(string));
                             ti.setTabUploadDate(new Timestamp(System.currentTimeMillis()));
                             ti.setTabUserId(userId);
                             ifService.addInsuranceFile(ti);
-                            mapResult.put("code", 0);
-                            mapResult.put("msg", "上传成功");
                             Map<String, Object> map1 = new HashMap<String, Object>();
-                            map1.put("src", f + "\\" + fileFileName);
+                            map1.put("src", f + "/" + fileFileName);
+                            mapResult.put("code", 0);
                             mapResult.put("msg", "上传成功");
                             mapResult.put("data", map1);
                         }
@@ -1943,26 +2247,33 @@ public class NewFileAction extends BaseAction {
                             }
 
                             TabInsuranceFile ti = new TabInsuranceFile();
-                            ti.setTabFileAddress(f + "\\" + fileFileName);
+                            ti.setTabFileAddress(f + "/" + fileFileName);
                             ti.setTabPayOpenId(Integer.parseInt(string));
                             ti.setTabUploadDate(new Timestamp(System.currentTimeMillis()));
                             ti.setTabUserId(userId);
                             ifService.addInsuranceFile(ti);
-                            mapResult.put("code", 0);
-                            mapResult.put("msg", "上传成功");
                             Map<String, Object> map1 = new HashMap<String, Object>();
-                            map1.put("src", f + "\\" + fileFileName);
+                            map1.put("src", f + "/" + fileFileName);
+                            mapResult.put("code", 0);
                             mapResult.put("msg", "上传成功");
                             mapResult.put("data", map1);
                         }
-
 
                     } else {
                         mapResult.put("code", 2);
                         mapResult.put("msg", "无权操作");
                     }
                 } else {
+                    System.out.println("无id");
+                    TabInsuranceFile ti = new TabInsuranceFile();
+                    ti.setTabFileAddress(f + "/" + fileFileName);
+                    ti.setTabUploadDate(new Timestamp(System.currentTimeMillis()));
+                    ti.setTabUserId(userId);
+                    ifService.addInsuranceFile(ti);
+                    Map<String, Object> map1 = new HashMap<String, Object>();
+                    map1.put("src", f + "/" + fileFileName);
                     mapResult.put("code", 3);
+                    mapResult.put("data", map1);
                     mapResult.put("msg", "无id");
                 }
             } else {
@@ -1996,7 +2307,7 @@ public class NewFileAction extends BaseAction {
         FileOutputStream out = null;
         try {
             in = new FileInputStream(file);
-            out = new FileOutputStream(dir + "\\" + fileFileName);
+            out = new FileOutputStream(dir + "/" + fileFileName);
             byte[] b = new byte[1024 * 1024];//每次写入的大小
             int i = 0;
             while ((i = in.read(b)) > 0) {

@@ -200,6 +200,14 @@ public class SeachInsurance {
 		this.tabIsCommit = tabIsCommit;
 	}
 
+	public String getTabBusinessID() {
+		return tabBusinessID;
+	}
+
+	public void setTabBusinessID(String tabBusinessID) {
+		this.tabBusinessID = tabBusinessID;
+	}
+
 	private Integer id;
 	private Timestamp tabStartDateStart;//批单日期 开始
 	private Timestamp tabStartDateEnd;//批单日期 结束
@@ -226,6 +234,7 @@ public class SeachInsurance {
 	private String tabIsAuditing; //打款状态
 	private String tabTeamOwnership;//团队归属
 	private String tabIsCommit;//是否已提交
+	private String tabBusinessID;//业务编号
 	private String type;//是否取消重复
 	private BigDecimal tabAllAmount;
 	private String falg;

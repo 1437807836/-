@@ -4,6 +4,8 @@ package com.yxbx.action;
 import java.io.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -426,7 +428,7 @@ public class UserAction extends BaseAction {
             //加个时间戳
             long f = System.currentTimeMillis();
 
-            String path = ServletActionContext.getServletContext().getRealPath("files") + "\\excel\\ScheduleOfInsurance_" + f + ".xls";
+            String path = ServletActionContext.getServletContext().getRealPath("files") + "/excel/ScheduleOfInsurance_" + f + ".xls";
             FileOutputStream fileOut = new FileOutputStream(path);
             wb.write(fileOut);
             fileOut.close();
@@ -1031,6 +1033,34 @@ public class UserAction extends BaseAction {
         return null;
     }
 
+    /**
+     * 根据id查询保单
+     * @return
+     */
+    @Action(value = "findInsuranceById")
+    public String findInsuranceById() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        String id = request.getParameter("id");
+        if (id == null || id.equals("")) {
+            id = "0";
+        }
+        TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue = soiTrueService.queryAllById(Integer.parseInt(id));
+        if (tabScheduleOfInsuranceTrue != null) {
+            List<TabInsuranceFile> tif = ifsService.queryInsuranceFileByInsuranceId(tabScheduleOfInsuranceTrue.getId());
+            tabScheduleOfInsuranceTrue.setTif(tif);
+            map.put("code", 0);
+            map.put("msg", "查询成功！");
+            map.put("data", tabScheduleOfInsuranceTrue);
+        } else {
+            map.put("code", 1);
+            map.put("msg", "查询失败！");
+            map.put("data", null);
+        }
+        strToJson(map);
+        return null;
+    }
+
     @Action(value = "findInsuranceTrue")    //查询正式表单
     public String findInsuranceTrue() {
 
@@ -1085,8 +1115,6 @@ public class UserAction extends BaseAction {
             if (cState) {
                 colorState++;
             }
-
-
         }*/
         List<TabScheduleOfInsuranceTrue> list1 = soiTrueService.queryAllByObject(si, "");
         if (list != null) {

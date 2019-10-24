@@ -1,221 +1,368 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<link rel="stylesheet" href="../assets/css/layui.css">
-		<link rel="stylesheet" href="../assets/css/view.css" />
-		<title>付款账号管理</title>
-		<style>
-			.layui-select-s {
-				width: 200px;
-				height: 38px;
-				padding-left: 10px;
-				border-color: #e6e6e6;
-			}
-		</style>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="../assets/css/layui.css">
+	<link rel="stylesheet" href="../assets/css/view.css" />
+	<title>付款账号管理</title>
+	<style>
+		.layui-select-s {
+			width: 200px;
+			height: 38px;
+			padding-left: 10px;
+			border-color: #e6e6e6;
+		}
+	</style>
+</head>
 
-	<body class="layui-view-body">
-		<div class="layui-content">
-			<div class="layui-row layui-col-space20">
-				<div class="layui-row">
-					<div class="layui-card">
-						<div class="layui-card-body">
-							<div class="form-box">
-								<div class="layui-form layui-form-item">
-									<div>
-										<div class="layui-row layui-col-space10">
-											<div class="layui-form-mid">用户名:</div>
-											<div class="layui-input-inline" style="width: 100px;">
-												<input type="text" autocomplete="off" class="layui-input">
-											</div>
-											<div class="layui-form-mid">姓名:</div>
-											<div class="layui-input-inline" style="width: 100px;">
-												<input type="text" autocomplete="off" class="layui-input">
-											</div>
-											<div class="layui-form-mid">手机:</div>
-											<div class="layui-input-inline" style="width: 100px;">
-												<input type="text" autocomplete="off" class="layui-input">
-											</div>
+<body class="layui-view-body">
+	<div class="layui-content">
+		<div class="layui-row layui-col-space20">
+			<div class="layui-row">
+				<div class="layui-card">
+					<div class="layui-card-body">
+						<div class="form-box">
+							<div class="layui-form layui-form-item">
+								<div>
+									<div class="layui-row layui-col-space10">
+										<div class="layui-form-mid">用户名:</div>
+										<div class="layui-input-inline" style="width: 100px;">
+											<input type="text" autocomplete="off" class="layui-input">
 										</div>
-										<div class="layui-row layui-col-space10">
-											<div class="layui-col-md4 layui-col-md-offset8">
-												<button id="add" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>新建</button>
-												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe642;</i>编辑</button>
-												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#x1006;</i>删除</button>
-												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe61f;</i>重设密码</button>
-												<button class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
-											</div>
+										<div class="layui-form-mid">姓名:</div>
+										<div class="layui-input-inline" style="width: 100px;">
+											<input type="text" autocomplete="off" class="layui-input">
+										</div>
+										<div class="layui-form-mid">手机:</div>
+										<div class="layui-input-inline" style="width: 100px;">
+											<input type="text" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+									<div class="layui-row layui-col-space10">
+										<div class="layui-col-md4 layui-col-md-offset8">
+											<button id="add" class="layui-btn layui-btn-primary layui-btn-sm"><i
+													class="layui-icon">&#xe61f;</i>新建</button>
+											<button id="edit" onclick="getEdit()"
+												class="layui-btn layui-btn-primary layui-btn-sm"><i
+													class="layui-icon">&#xe642;</i>编辑</button>
+											<button onclick='getRemove'
+												class="layui-btn layui-btn-primary layui-btn-sm"><i
+													class="layui-icon">&#x1006;</i>删除</button>
+											<button class="layui-btn layui-btn-primary layui-btn-sm"><i
+													class="layui-icon">&#xe61f;</i>重设密码</button>
+											<button class="layui-btn layui-btn-primary layui-btn-sm"><i
+													class="layui-icon">&#xe615;</i>搜索</button>
 										</div>
 									</div>
 								</div>
-								<table id="demo"></table>
 							</div>
+							<table id="demo" lay-filter="testFilter"></table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="prompt" class="layui-fluid" style="display: none;">
-			<div class="layui-row layui-col-space10" style="margin-top: 1px;">
-				<div style="padding:2%;">
-					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">用户名:</div>
-					<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
-						<input id="username" type="text" autocomplete="off" class="layui-input" placeholder='请输入名称'>
-					</div>
+	</div>
+	<div id="prompt" class="layui-fluid" style="display: none;">
+		<div class="layui-row layui-col-space10" style="margin-top: 1px;">
+			<div style="padding:2%;">
+				<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">用户名:</div>
+				<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
+					<input id="username" type="text" autocomplete="off" class="layui-input" placeholder='请输入名称'>
 				</div>
-				<div style="padding:2%;">
-					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">密码:</div>
-					<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
-						<input id="password" type="text" autocomplete="off" class="layui-input" placeholder='请输入密码'>
-					</div>
+			</div>
+			<div style="padding:2%;">
+				<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">密码:</div>
+				<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
+					<input id="password" type="text" autocomplete="off" class="layui-input" placeholder='请输入密码'>
 				</div>
-				<div style="padding:2%;">
-					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">手机号:</div>
-					<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
-						<input id="phone" type="text" autocomplete="off" class="layui-input" placeholder='请输入手机号'>
-					</div>
+			</div>
+			<div style="padding:2%;">
+				<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">手机号:</div>
+				<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
+					<input id="phone" type="text" autocomplete="off" class="layui-input" placeholder='请输入手机号'>
 				</div>
-				<div style="padding:2%;">
-					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">用户权限:</div>
-					<div style="width: 350px;">
-						<select id="power" name="power" class="layui-select-s">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-						</select>
-					</div>
+			</div>
+			<div style="padding:2%;">
+				<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">用户权限:</div>
+				<div style="width: 350px;">
+					<select id="power" name="power" class="layui-select-s">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+					</select>
 				</div>
-				<div style="padding:2%;" hidden="hidden">
-					<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">登录者Id:</div>
-					<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
-						<input id="userId" type="text" autocomplete="off" class="layui-input" placeholder='请输入登录者id' readonly="readonly">
-					</div>
+			</div>
+			<div style="padding:2%;" hidden="hidden">
+				<div class="layui-form-mid layui-form-mid-width" style="width: 80px;">登录者Id:</div>
+				<div class="layui-input-inline layui-input-inline-width" style="width: 260px;">
+					<input id="userId" type="text" autocomplete="off" class="layui-input" placeholder='请输入登录者id'
+						readonly="readonly">
 				</div>
 			</div>
 		</div>
-		<script type="text/html" id="barDemo">
+	</div>
+	<script type="text/html" id="barDemo">
 		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 		</script>
-		<script src="../assets/layui.all.js"></script>
-		<script src="../js/jquery-1.10.2.min.js"></script>
-		<script>
-			var element = layui.element;
-			var table = layui.table;
-			var form = layui.form;
-			var userInfo = JSON.parse(localStorage.getItem("userInfo"));
-			//弹出层
-			layui.use('layer', function() {
-				var $ = layui.jquery,
-					layer = layui.layer;
-				$(document).on('click', '#add', function() {
-					userInfo = JSON.parse(localStorage.getItem("userInfo"));
-				    $("#userId").val(userInfo.userId);//userInfo.username
-					layer.open({
-						type: 1,
-						title: ['新增', 'font-size:18px;'],
-						btn: ['提交', '关闭'],
-						yes: function(index, layero) {
-							var username = $("#username").val();
-							var pwd = $("#password").val();
-							var phone = $("#phone").val();
-							var power = $("#power").val();
-							var userId = $("#userId").val();
-							console.log(username + '--' + pwd + '--' + phone + '--' + power + '--' + userId);
-							/*var sendurl = 'http://z1o6123024.iok.la:59337/yxbx/addUser?username='+username+'&&password='+pwd+'&&mobile='+phone+'&&user_type='+power+'&&userId='+userId;
-							console.log(sendurl);
-							var fixurl = 'http://z1o6123024.iok.la:59337/yxbx/addUser?username=test002&&password=123456&&mobile=15212345678&&user_type=2&&userId=1002'*/
-							$.ajax({
-							   
-								url: '/yxbx/addUser',
-								type:'POST',
-								data:{
-									username:username,
-									password:pwd,
-									mobile:phone,
-									user_type:power,
-									userId:userId
-									
-								},						
-								success: function(res) {
-									var data = eval('(' + res + ')')
-									console.log(data)
-									if(data.msg === '权限不足'){
-										alert('您的权限为'+userInfo.user_type+',您只能增加比它大的用户权限');
-									}else{
-										layer.close(layer.index);
-									}
-								},
-								error: function(res) {
-									console.log(res)
-								}           
-							});
-						},
-						btn2: function() {
-							$("#prompt").hide();
-						},
-						end: function () {
-							$("#prompt").hide();
-						},
-						content: $('#prompt'),
-						skin: 'layui-layer-rim',
-						area: ['600px', '400px'],
-						resize: false
-					});
+	<!-- 不是2.4的版本，而是2.2的版本 -->
+	<script src="../assets/layui.all.js"></script>
+	<script src="../js/jquery-1.10.2.min.js"></script>
+	<script>
+		var element = layui.element;
+		var table = layui.table;
+		var form = layui.form;
+		var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+		// console.log($('#demo').siblings('div.layui-form.layui-border-box.layui-table-view').find('tr'))
+		var checkitems = [];//选中的行的数据
+		var checkitemIds = [];//选中的行的id
+		function getEdit() {
+			if (checkitems.length != 0) {
+				if (checkitems.length > 1) {
+					alert("只可以编辑一项数据")
+				}
+				else {
+					alert('可以进行编辑')
+				}
+
+			}
+			else {
+				alert('请选中要编辑的行数据')
+			}
+		}
+		function getRemove() {
+			if (checkitems.length > 0) {
+				alert('可以进行删除')
+			}
+			else {
+				alert('请选中要删除的行数据')
+			}
+		}
+
+		// 监听复选框点击事件
+		table.on('checkbox(testFilter)', function (obj) {
+			console.log(obj.checked); //当前是否选中状态
+			console.log(obj.data); //选中行的相关数据
+			console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+
+			if (obj.type === "all") {
+				var checkStatus = table.checkStatus('demo'); //idTest 即为基础参数 id 对应的值
+
+				console.log(checkStatus.data); //获取选中行的数据
+				console.log(checkStatus.data.length); //获取选中行数量，可作为是否有选中行的条件
+				console.log(checkStatus.isAll); //表格是否全选
+
+				if (obj.checked) {
+					$('.layui-table-body table.layui-table tbody tr').addClass('layui-table-click');
+					console.log("全选选中");
+					for (var j = 0; j < checkStatus.data.length; j++) {
+						// console.log(checkitemIds.indexOf(checkStatus.data[j].id));
+						if (checkitemIds.indexOf(checkStatus.data[j].id) === -1) {
+							checkitems[checkitems.length] = checkStatus.data[j];
+							checkitemIds[checkitemIds.length] = checkStatus.data[j].id;
+						}
+					}
+				} else {
+					$('.layui-table-body table.layui-table tbody tr').removeClass('layui-table-click');
+					console.log("全选取消");
+					checkitems.length = 0;
+					checkitemIds.length = 0;
+				}
+			} else {
+				if (obj.checked) {
+
+					// obj.tr.addClass('layui-table-click');
+					console.log("单选选中");
+					checkitems[checkitems.length] = obj.data;
+					checkitemIds[checkitemIds.length] = obj.data.id;
+
+				} else {
+					// obj.tr.removeClass('layui-table-click');
+					console.log("单选取消");
+					for (var j = 0; j < checkitems.length; j++) {
+						if (checkitems[j].id === obj.data.id) {
+							checkitems.splice(j, 1);
+							checkitemIds.splice(j, 1);
+						}
+					}
+				}
+			}
+			console.log(checkitems);
+			console.log(checkitemIds);
+		});
+
+
+
+		//弹出层
+		layui.use(['layer', 'form'], function () {
+			var $ = layui.jquery,
+				layer = layui.layer;
+			$(document).on('click', '#add', function () {
+				userInfo = JSON.parse(localStorage.getItem("userInfo"));
+				$("#userId").val(userInfo.userId);//userInfo.username
+				layer.open({
+					type: 1,
+					title: ['新增', 'font-size:18px;'],
+					btn: ['提交', '关闭'],
+					yes: function (index, layero) {
+						var username = $("#username").val();
+						var pwd = $("#password").val();
+						var phone = $("#phone").val();
+						var power = $("#power").val();
+						var userId = $("#userId").val();
+						console.log(username + '--' + pwd + '--' + phone + '--' + power + '--' + userId);
+						$.ajax({
+
+							url: '/yxbx/addUser',
+							type: 'POST',
+							data: {
+								username: username,
+								password: pwd,
+								mobile: phone,
+								user_type: power,
+								userId: userId
+
+							},
+							success: function (res) {
+								var data = eval('(' + res + ')');
+								console.log(data);
+								if (data.msg === '权限不足') {
+									alert('您的权限为' + userInfo.user_type + ',您只能增加比它大的用户权限');
+								} else {
+									layer.close(layer.index);
+								}
+							},
+							error: function (res) {
+								console.log(res)
+							}
+						});
+					},
+					btn2: function () {
+						$("#prompt").hide();
+					},
+					end: function () {
+						$("#prompt").hide();
+					},
+					content: $('#prompt'),
+					skin: 'layui-layer-rim',
+					area: ['600px', '400px'],
+					resize: false
 				});
 			});
-			//展示已知数据
-			table.render({
-				size: 'sm',
-				elem: '#demo',
-				url: '/yxbx/queryAllUser?user_type='+userInfo.userId,
-				cols: [
-					[{event: 'setSign',align:'center',
-							field: 'tabUsername',
-							title: '用户名',
-							width: 200
-						},
-						{event: 'setSign',align:'center',
-							field: 'tabUserType',
-							title: '用户级别',
-							width: 200
-						},
-						{event: 'setSign',align:'center',
-							field: 'tabMobile',
-							title: '手机',
-							width: 200
-						}
-					]
-				],
-				/* skin: 'row',
-				even: true, */
-				page: true, //是否显示分页
-				limits: [10, 20, 30],
-				limit: 10 //每页默认显示的数量
-				
-			});
-			//监听工具条
-			table.on('tool(#demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-			  var data = obj.data; //获得当前行数据
-			  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-			  var tr = obj.tr; //获得当前行 tr 的DOM对象
-			 
-			  if(layEvent === 'detail'){ //查看 
-			  
-			    //do somehing
-			  } else if(layEvent === 'del'){ //删除
-			    layer.confirm('真的删除行么', function(index){
-			      obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-			      layer.close(index);
-			      //向服务端发送删除指令
-			    });
-			  } else if(layEvent === 'edit'){ //编辑
-			  	  
-			  }
-			});
-		</script>
-	</body>
+		});
+		//展示已知数据
+		table.render({
+			size: 'sm',
+			elem: '#demo',
+			url: '/yxbx/queryAllUser?user_type=' + userInfo.userId,
+			cols: [
+				[
+					{
+						type: 'checkbox',
+						// fixed: 'left',
+						display: 'none'
+					},
+					{
+						event: 'setSign', align: 'center',
+						field: 'tabUsername',
+						title: '用户名',
+						width: 200
+					},
+					{
+						event: 'setSign', align: 'center',
+						field: 'tabUserType',
+						title: '用户级别',
+						width: 200
+					},
+					{
+						event: 'setSign', align: 'center',
+						field: 'tabMobile',
+						title: '手机',
+						width: 200
+					}
+				]
+			],
+			/* skin: 'row',
+			even: true, */
+			page: true, //是否显示分页s
+			limits: [10, 20, 30],
+			limit: 10,//每页默认显示的数量
+			done: function (res, curr, count) {
+
+				// 实现选中表格行选中复选框
+				$(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+					var index = $(this).attr('data-index');
+					var tableBox = $(this).parents('.layui-table-box');
+					//存在固定列
+					if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+						tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+					} else {
+						tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+					}
+					var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+					if (checkCell.length > 0) {
+						checkCell.click();
+					}
+				});
+				// 	// // 阻止事件向上冒泡
+				$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+					e.stopPropagation();
+				});
+
+			}
+
+		});
+		table.on('row(testFilter)', function (obj) {
+			console.log('1')
+			console.log(obj.tr) //得到当前行元素对象
+			console.log(obj.data) //得到当前行数据
+			//obj.del(); //删除当前行
+			//obj.update(fields) //修改当前行数据
+		});
+
+		// $('#demo')
+		// 	.next()
+		// 	.find('.layui-table-body')
+		// 	.find("table")
+		// 	.find("tbody")
+		// 	.children("tr")
+		// 	.on('click',
+		// 		function (obj) {
+		// 			console.log(obj)
+		// 			clearTimeout(timer);
+		// 			var id = JSON.stringify($('#demo').next().find('.layui-table-body').find("table").find("tbody").find(
+		// 				".layui-table-hover").data('index'));
+		// 			var obj = res.data[id];
+		// 			var data = obj.data;
+		// 			var ajaxId = obj.id;
+		// 			// 详情数据
+
+		// 		});
+
+
+		// //监听工具条
+		// table.on('tool(#demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+		// 	var data = obj.data; //获得当前行数据
+		// 	console.log(data)
+		// 	var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+		// 	var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+		// 	if (layEvent === 'detail') { //查看 
+
+		// 		//do somehing
+		// 	} else if (layEvent === 'del') { //删除
+		// 		layer.confirm('真的删除行么', function (index) {
+		// 			obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+		// 			layer.close(index);
+		// 			//向服务端发送删除指令
+		// 		});
+		// 	} else if (layEvent === 'edit') { //编辑
+
+		// 	}
+		// });
+	</script>
+</body>
 
 </html>

@@ -1,118 +1,117 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="stylesheet" href="assets/css/layui.css">
-		<link rel="stylesheet" href="assets/css/admin.css">
-		<link rel="icon" href="/favicon.ico">
-		<title>管理后台</title>
-		<style type="text/css">
-		
-		    background-color: #fafbfd;
-		</style>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="assets/css/layui.css">
+	<link rel="stylesheet" href="assets/css/admin.css">
+	<link rel="icon" href="/favicon.ico">
+	<title>管理后台</title>
+	<style type="text/css">
+		background-color: #fafbfd;
+	</style>
+</head>
 
-	<body class="layui-layout-body">
-		<div class="layui-layout layui-layout-admin">
-			<div class="layui-header custom-header">
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header custom-header">
 
-				<ul class="layui-nav layui-layout-left">
-					<li class="layui-nav-item slide-sidebar" lay-unselect>
-						<a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
-					</li>
-				</ul>
+			<ul class="layui-nav layui-layout-left">
+				<li class="layui-nav-item slide-sidebar" lay-unselect>
+					<a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
+				</li>
+			</ul>
 
-				<ul class="layui-nav layui-layout-right">
+			<ul class="layui-nav layui-layout-right">
+				<li class="layui-nav-item">
+					<a href="javascript:;">你好，<span id="username"></span></a>
+					<dl class="layui-nav-child">
+						<dd>
+							<a id="outLogin">退出</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+
+		<div class="layui-side custom-admin">
+			<div class="layui-side-scroll">
+
+				<div class="custom-logo">
+					<h1>保险代理系统</h1>
+				</div>
+				<ul id="Nav" class="layui-nav layui-nav-tree layui-nav-side">
 					<li class="layui-nav-item">
-						<a href="javascript:;">你好，<span id="username"></span></a>
+						<a href="javascript:;">
+							<i class="layui-icon">&#xe609;</i>
+							<em>保险业务</em>
+						</a>
 						<dl class="layui-nav-child">
+							<!--								<dd>-->
+							<!--									<a href="views/console_3.html">所有保单</a>-->
+							<!--								</dd>-->
 							<dd>
-								<a id="outLogin" >退出</a>
+								<a href="views/console.html">保险清单</a>
+							</dd>
+							<!--								<dd>-->
+							<!--									<a href="views/console_1.html">我的清单</a>-->
+							<!--								</dd>-->
+							<dd>
+								<a href="views/baoxianCompany.html">保险公司管理</a>
+							</dd>
+							<dd>
+								<a href="views/agentManage.html">代理人管理</a>
+							</dd>
+							<dd>
+								<a href="views/baoxianPolicy.html">保险政策</a>
+							</dd>
+							<dd>
+								<a href="views/payManage.html">付款账号管理</a>
+							</dd>
+							<dd>
+								<a href="views/console_2.html">付款申请</a>
 							</dd>
 						</dl>
 					</li>
-				</ul>
-			</div>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<i class="layui-icon">&#xe612;</i>
+							<em>系统管理</em>
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="./updatePwd.html">密码修改</a>
+							</dd>
+							<dd>
+								<a href="views/operaterule.html">用户管理</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item" style="display: visible;" id="cwManager">
+						<a href="javascript:;">
+							<i class="layui-icon">&#xe6b2;</i>
+							<em>财务管理</em>
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="views/pay_console.html">待付款</a>
+							</dd>
+							<dd>
+								<a href="views/wait_open_console.html">待收款</a>
+							</dd>
+							<dd>
+								<a href="views/financial_statements_console1.html">统计</a>
+							</dd>
 
-			<div class="layui-side custom-admin">
-				<div class="layui-side-scroll">
 
-					<div class="custom-logo">
-						<h1>保险代理系统</h1>
-					</div>
-					<ul id="Nav" class="layui-nav layui-nav-tree layui-nav-side">
-						<li class="layui-nav-item">
-							<a href="javascript:;">
-								<i class="layui-icon">&#xe609;</i>
-								<em>保险业务</em>
-							</a>
-							<dl class="layui-nav-child">
-<!--								<dd>-->
-<!--									<a href="views/console_3.html">所有保单</a>-->
-<!--								</dd>-->
-								<dd>
-									<a href="views/console.html">保险清单</a>
-								</dd>
-<!--								<dd>-->
-<!--									<a href="views/console_1.html">我的清单</a>-->
-<!--								</dd>-->
-								<dd>
-									<a href="views/baoxianCompany.html">保险公司管理</a>
-								</dd>
-								<dd>
-									<a href="views/agentManage.html">代理人管理</a>
-								</dd>
-								<dd>
-									<a href="views/baoxianPolicy.html">保险政策</a>
-								</dd>
-								<dd>
-									<a href="views/payManage.html">付款账号管理</a>
-								</dd>
-								<dd>
-									<a href="views/console_2.html">付款申请</a>
-								</dd>
-							</dl>
-						</li>
-						<li class="layui-nav-item">
-							<a href="javascript:;">
-								<i class="layui-icon">&#xe612;</i>
-								<em>系统管理</em>
-							</a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a href="views/updatePwd.html">密码修改</a>
-								</dd>
-								<dd>
-									<a href="views/operaterule.html">用户管理</a>
-								</dd>
-							</dl>
-						</li>
-						<li class="layui-nav-item" style="display: visible;" id="cwManager">
-							<a href="javascript:;">
-								<i class="layui-icon">&#xe6b2;</i>
-								<em>财务管理</em>
-							</a>
-							<dl class="layui-nav-child" >
-						    	<dd>
-									<a href="views/pay_console.html">待付款</a>
-								</dd>
-								<dd>
-									<a href="views/wait_open_console.html">待收款</a>
-								</dd>
-								<dd>
-									<a href="views/financial_statements_console1.html">统计</a>
-								</dd>
-								
-							
-							</dl>
-						</li>
-						
-						
-						
-						<!--<li class="layui-nav-item">
+						</dl>
+					</li>
+
+
+
+					/* <!--<li class="layui-nav-item">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe857;</i>
                             <em>组件</em>
@@ -128,53 +127,54 @@
                                 </dl>
                             </dd>
                         </dl>
-                    </li>-->
-					</ul>
+                    </li>--> */
+				</ul>
 
-				</div>
 			</div>
-
-			<div class="layui-body">
-				<div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
-					<ul id="appTabs" class="layui-tab-title custom-tab"></ul>
-					<div id="appTabPage" class="layui-tab-content"></div>
-				</div>
-			</div>
-			<div class="mobile-mask"></div>
 		</div>
-		<script src="assets/layui.js"></script>
-		<script src="index.js" data-main="home"></script>
-		<script src="js/jquery-1.10.2.min.js"></script>
-		<script>
-			
-			$(document).on('click', '#outLogin', function() {
-				localStorage.setItem("userInfo", "");
-		       	window.location.href = 'login.html';
-			});
-			$(document).ready(function() {
-			
-				if(localStorage.getItem("userInfo")==null||localStorage.getItem("userInfo")==""){
-						window.location.href = 'login.html';
-					return;
+
+		<div class="layui-body">
+			<div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
+				<ul id="appTabs" class="layui-tab-title custom-tab"></ul>
+				<div id="appTabPage" class="layui-tab-content"></div>
+			</div>
+		</div>
+		<div class="mobile-mask"></div>
+	</div>
+	<script src="assets/layui.js"></script> 
+	/* <script src="https://www.layuicdn.com/layui-v2.4.1/layui.js"></script> */
+	<script src="index.js" data-main="home"></script>
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script>
+
+		$(document).on('click', '#outLogin', function () {
+			localStorage.setItem("userInfo", "");
+			window.location.href = 'login.html';
+		});
+		$(document).ready(function () {
+
+			if (localStorage.getItem("userInfo") == null || localStorage.getItem("userInfo") == "") {
+				window.location.href = 'login.html';
+				return;
+			}
+			var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			$("#username").text(userInfo.username);//userInfo.username
+
+			if (userInfo.user_type > 2) {
+				if ($("#cwManager")) {
+					$("#cwManager").hide();
+
 				}
-					var userInfo = JSON.parse(localStorage.getItem("userInfo"));
-				$("#username").text(userInfo.username);//userInfo.username
-			
-				if(userInfo.user_type>2){
-		            if($("#cwManager")){  
-                         $("#cwManager").hide();  
-                         
-                    }  
-				}else{
-				if($("#cwManager")){  
-                         $("#cwManager").show();
-                         
-                    }
-					
+			} else {
+				if ($("#cwManager")) {
+					$("#cwManager").show();
+
 				}
-				console.log(userInfo);
-			});
-		</script>
-	</body>
+
+			}
+			console.log(userInfo);
+		});
+	</script>
+</body>
 
 </html>

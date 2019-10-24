@@ -1138,7 +1138,7 @@ a cite {
 	margin-left: 100%
 }
 
-@media screen and (max-width:768px) {
+ (max-width:768px) {
 	.layui-hide-xs {
 		display: none!important
 	}

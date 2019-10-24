@@ -35,7 +35,7 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     private String tabCarState;//使用性质
     private String tabIsRenewal;//转续保
     private String tabCardState;//付款方式
-    private String tabCdPerson;//出单人  录入人
+    private String tabCdPerson;//   录入人
     private String tabChannel;//渠道
     private BigDecimal tabCommercialInsurance;//商业险
     private BigDecimal tabCommissionAmount;//佣金合计
@@ -50,7 +50,7 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     private BigDecimal tabJbfjql;//净保费交强率
     private BigDecimal tabJbfsyl;//----净保费商业率
     private BigDecimal tabJfysAmount;//净费应收
-    private String tabManagerUser;//管理人
+    private String tabManagerUser;//管理人      出单人
     private String tabMessage;//备注
     private Timestamp tabQdDate;//生效日期
     private BigDecimal tabRealAmount;//实收
@@ -79,6 +79,10 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     private BigDecimal tabSyfyl;//商业费用率
     private BigDecimal tabSyxfy;//商业险费用
     private String tabIsCommit;//是否已提交
+    private String tabReserve;//备用
+    private String tabItems;//事项
+    private String tabBusinessID;//业务编号
+    private String tabPayID;//业务编号
     private String realOpenPayState;//公司状态
 
     private List<TabInsuranceFile> tif = null;//附件
@@ -696,4 +700,41 @@ public class TabScheduleOfInsuranceTrue implements java.io.Serializable {
     public void setTabIsCommit(String tabIsCommit) {
         this.tabIsCommit = tabIsCommit;
     }
+
+    @Column(name = "tab_businessID")
+    public String getTabBusinessID() {
+        return tabBusinessID;
+    }
+
+    public void setTabBusinessID(String tabBusinessID) {
+        this.tabBusinessID = tabBusinessID;
+    }
+
+    @Column(name = "tab_reserve")
+    public String getTabReserve() {
+        return tabReserve;
+    }
+
+    public void setTabReserve(String tabReserve) {
+        this.tabReserve = tabReserve;
+    }
+
+    @Column(name = "tab_items")
+    public String getTabItems() {
+        return tabItems;
+    }
+
+    public void setTabItems(String tabItems) {
+        this.tabItems = tabItems;
+    }
+
+    @Column(name = "tab_payID")
+    public String getTabPayID() {
+        return tabPayID;
+    }
+
+    public void setTabPayID(String tabPayID) {
+        this.tabPayID = tabPayID;
+    }
+
 }

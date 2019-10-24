@@ -41,7 +41,8 @@ public class TabInsurerPolicy implements java.io.Serializable {
 	private String tabInsurerName;
 	private Integer tabBxStateId;
 	private Timestamp tabWriteTime;
-	
+	private String tabRemark;
+
 	//-----------
 
 	private Timestamp tabSubmitTimeStart;
@@ -375,4 +376,12 @@ public class TabInsurerPolicy implements java.io.Serializable {
 		this.tabWriteTime = tabWriteTime;
 	}
 
+	@Column(name = "tab_remark")
+	public String getTabRemark() {
+		return tabRemark;
+	}
+
+	public void setTabRemark(String tabRemark) {
+		this.tabRemark = tabRemark;
+	}
 }

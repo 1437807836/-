@@ -12,7 +12,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.Entity;
 
+import com.yxbx.pojo.TabInsuranceFile;
 import com.yxbx.pojo.TabInsurer;
+import com.yxbx.pojo.TabUser;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -164,6 +166,11 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 list.add("tabIsCommit");
                 listValues.add(String.valueOf(si.getTabIsCommit()));
             }
+            if (si.getTabBusinessID() != null) {
+                sql.append(" and  tab_businessID =:tabBusinessID ");
+                list.add("tabBusinessID");
+                listValues.add(String.valueOf(si.getTabBusinessID()));
+            }
             if (si.getTabCarNum() != null) {
                 sql.append(" and   tab_car_num=:tabCarNum");
                 list.add("tabCarNum");
@@ -193,6 +200,11 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 sql.append(" and  tab_car_state=:TabCarState");
                 list.add("TabCarState");
                 listValues.add(String.valueOf(si.getTabCarState()));
+            }
+            if (si.getTabSafePerson() != null) {
+                sql.append(" and  tab_safe_person=:tabSafePerson");
+                list.add("tabSafePerson");
+                listValues.add(String.valueOf(si.getTabSafePerson()));
             }
             if (si.getTabChannel() != null) {
                 sql.append(" and  tab_channel=:TabChannel");
@@ -346,10 +358,10 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
     @Override
     public String commitInsuranceTabIsAuditing(String id) {
         TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue = datadao.getObjectById(TabScheduleOfInsuranceTrue.class, Integer.parseInt(id));
-        if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
-            String sql = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
-            String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
-            String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+        if (scheduleOfInsuranceTrue.getTabIsCommit().trim().equals("未提交")) {
+            String sql = "from TabScheduleOfInsuranceTrue where tab_isCommit=:tabIsCommit tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+            String[] params = new String[]{"tabIsCommit", "tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+            String[] values = new String[]{"已提交", scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
             List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, params, values);
             if (list != null && list.size() > 0) {
 //                scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
@@ -377,10 +389,10 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
         String sql = "from TabScheduleOfInsuranceTrue where id in(" + idStr + ")";
         List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, null, null);
         for (TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue : list) {
-            if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
-                String sql2 = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
-                String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
-                String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+            if (scheduleOfInsuranceTrue.getTabIsCommit().trim().equals("未提交")) {
+                String sql2 = "from TabScheduleOfInsuranceTrue where tab_isCommit=:tabIsCommit and tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+                String[] params = new String[]{"tabIsCommit", "tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+                String[] values = new String[]{"已提交", scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
                 List<TabScheduleOfInsuranceTrue> list2 = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql2, params, values);
                 if (list2 != null && list2.size() > 0) {
 //                    scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
@@ -424,10 +436,10 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
         String sql = "from TabScheduleOfInsuranceTrue where id in(" + idStr + ")";
         List<TabScheduleOfInsuranceTrue> list = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql, null, null);
         for (TabScheduleOfInsuranceTrue scheduleOfInsuranceTrue : list) {
-            if (scheduleOfInsuranceTrue.getTabIsCommit().equals("未提交")) {
-                String sql2 = "from TabScheduleOfInsuranceTrue where tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
-                String[] params = new String[]{"tabAgentName", "tabCarNum", "tabSafePerson", "id"};
-                String[] values = new String[]{scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
+            if (scheduleOfInsuranceTrue.getTabIsCommit().trim().equals("未提交")) {
+                String sql2 = "from TabScheduleOfInsuranceTrue where tab_isCommit=:tabIsCommit and tab_agent_name=:tabAgentName and tab_car_num=:tabCarNum and tab_safe_person=:tabSafePerson and id!=:id";
+                String[] params = new String[]{"tabIsCommit", "tabAgentName", "tabCarNum", "tabSafePerson", "id"};
+                String[] values = new String[]{"已提交", scheduleOfInsuranceTrue.getTabAgentName(), scheduleOfInsuranceTrue.getTabCarNum(), scheduleOfInsuranceTrue.getTabSafePerson(), scheduleOfInsuranceTrue.getId() + ""};
                 List<TabScheduleOfInsuranceTrue> list2 = (List<TabScheduleOfInsuranceTrue>) datadao.getAllObjects1(sql2, params, values);
                 if (list2 != null && list2.size() > 0) {
                     scheduleOfInsuranceTrue.setTabIsAuditing("有问题");
@@ -452,13 +464,178 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 sb.append(successNum + "条提交成功！");
             }
             if (errorNum > 0) {
-                sb.append(successNum + "条经过特殊政策提交成功！");
+                sb.append(errorNum + "条经过特殊政策提交成功！");
             }
             if (repeatNum > 0) {
-                sb.append(successNum + "条已经提交过了，请勿重复提交！");
+                sb.append(repeatNum + "条已经提交过了，请勿重复提交！");
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public void addInsuranceTrueFile(String idStr, String businessID) {
+        String sql = "from TabScheduleOfInsuranceTrue where tab_businessID=:businessID";
+        TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue = (TabScheduleOfInsuranceTrue) datadao.getObjects(sql, new String[]{"businessID"}, new String[]{businessID});
+        String[] split = idStr.split(",");
+        StringBuffer s = new StringBuffer();
+        for (int i = 0; i < split.length; i++) {
+            if (i == 0) {
+                s.append(" where tab_file_address='").append(split[i].trim()).append("' ");
+            } else {
+                s.append(" or tab_file_address='").append(split[i].trim()).append("' ");
+            }
+        }
+        String sql1 = " from TabInsuranceFile ";
+        if (!s.toString().equals("")) {
+            sql1 += s.toString();
+        }
+        List<TabInsuranceFile> list = (List<TabInsuranceFile>) datadao.getAllObjects1(sql1, null, null);
+        for (TabInsuranceFile tabInsuranceFile : list) {
+            tabInsuranceFile.setTabInsuranceTrueId(tabScheduleOfInsuranceTrue.getId());
+            datadao.updateObject(tabInsuranceFile);
+        }
+    }
+
+    @Override
+    public void addScheduleOfInsurance2(TabScheduleOfInsuranceTrue tabSoi) {
+        String hql1 = "from TabInsurer where tab_insurer_name=:tabInsurerName";
+        TabInsurer tabInsurer = (TabInsurer) datadao.getObjects(hql1, new String[]{"tabInsurerName"}, new String[]{tabSoi.getTabInsuranceCompanyName()});
+        if (tabInsurer == null) {
+            tabInsurer = new TabInsurer();
+            tabInsurer.setTabInsurerName(tabSoi.getTabInsuranceCompanyName());
+            tabInsurer.setTabWriteDate(new Timestamp(new Date().getTime()));
+            tabInsurer.setTabWhPerson(tabSoi.getTabWhPerson());
+            datadao.addObject(tabInsurer);
+        }
+        datadao.addObject(tabSoi);
+    }
+
+    @Override
+    public String addInsurancePolicyOfExcel(String filePath, String fileName, TabUser tu) {
+        String path = filePath + fileName;
+        StringBuffer result = new StringBuffer();// 存放返回结果
+        try {
+            Workbook workbook = null;
+            workbook = Workbook.getWorkbook(new File(path));
+            result.append("文件名为'" + new File(path).getName() + "<br/>");
+            int num = workbook.getNumberOfSheets();
+            result.append("Sheet个数：" + num + "<br/>");
+            // 循环读取Sheet
+            for (int k = 0; k < num; k++) {
+                /** 存放添加失败的行数 */
+                StringBuffer sbStr = new StringBuffer();
+                Sheet sheet = workbook.getSheet(k);
+                String sheetName = sheet.getName().toString().trim();// sheet名称
+                result.append("第" + (k + 1) + "个Sheet名：" + sheetName + "。");
+                int rowCount = sheet.getRows();// 行
+                int columnCount = sheet.getColumns();// 列
+                result.append("行数：" + rowCount + "，列数：" + columnCount + "<br/>");
+                if (columnCount == 29) {// 列有29列
+                    StringBuffer sb2 = new StringBuffer();// 存放第一行数据，即列名称
+                    Cell cell = null;
+                    if (rowCount > 0 && columnCount > 0) {// 有数据
+                        int successNum = 0;
+                        if (rowCount > 0) {// 至少存在第一行
+                            String headerStr = "保批单日期,到期日,签单日期,车牌号,被保险人,业务性质,转续保,使用性质,渠道,保险公司,交强险,商业险,车船税,小计,代理人,团队,结算方式,备注,出单员,维护人,客户电话,交强净保费,交强费用率,交强险费用,商业净保费,商业费用率,商业险费用,其他应付,佣金合计,";
+                            // 读取表的第一行
+                            for (int j = 0; j < columnCount; j++) {
+                                Cell headerRowCell = sheet.getCell(j, 0);// 第二行，行数为1
+                                String temp1 = headerRowCell.getContents().toString().trim();
+                                sb2.append(temp1);
+                                sb2.append(",");
+                            }
+//                            result.append("第一行:" + sb2.toString() + "<br/>");
+                            if (!headerStr.equals(sb2.toString().trim())) {// 没有按照给定的规格来
+                                result.append("'" + sheetName + "' 第一行标题栏，不符合格式！<br/>");
+                                break;
+                            } else {
+                                // 从第二行开始循环读取Cell，读一行处理一行数据
+                                forNum:
+                                for (int m = 1; m < rowCount; m++) {// 从第二行开始循环行
+                                    /** 试题类型，放在最外面，便于答案的判断 */
+                                    int type = 0;
+                                    SimpleDateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式1
+                                    SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式2
+                                    Date date = null;
+                                    // 建立空的对象
+                                    TabScheduleOfInsuranceTrue tabScheduleOfInsuranceTrue = new TabScheduleOfInsuranceTrue();
+                                    tabScheduleOfInsuranceTrue.setTabWriteDate(new Timestamp(System.currentTimeMillis()));
+                                    tabScheduleOfInsuranceTrue.setTabIsAuditing("待提交");
+                                    tabScheduleOfInsuranceTrue.setTabIsCommit("未提交");
+                                    tabScheduleOfInsuranceTrue.setTabBusinessID(System.currentTimeMillis() + "");
+                                    for (int n = 0; n < columnCount; n++) {// 循环列
+                                        String temp2 = "";// 存放内容
+                                        cell = sheet.getCell(n, m);
+                                        temp2 = cell.getContents().toString().trim();
+                                        if (n == 0) {// 保批单日期
+                                            try {
+                                                if (temp2.length() > 10) {
+                                                    date = df2.parse(temp2);
+                                                } else {
+                                                    date = df1.parse(temp2);
+                                                }
+                                                Timestamp timestamp = new Timestamp(date.getTime());
+                                                tabScheduleOfInsuranceTrue.setTabQdDate(timestamp);
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                result.append("第" + (m + 1) + "行，第" + (n + 1) + "列: '" + temp2 + "' 格式不正确！<br/>");
+                                                sbStr.append((m + 1) + ",");
+                                                continue forNum;
+                                            }
+                                        } else if (n == 1) {// 到期日
+                                            try {
+                                                if (temp2.length() > 10) {
+                                                    date = df2.parse(temp2);
+                                                } else {
+                                                    date = df1.parse(temp2);
+                                                }
+                                                Timestamp timestamp = new Timestamp(date.getTime());
+                                                tabScheduleOfInsuranceTrue.setTabEndDate(timestamp);
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                result.append("第" + (m + 1) + "行，第" + (n + 1) + "列: '" + temp2 + "' 格式不正确！<br/>");
+                                                sbStr.append((m + 1) + ",");
+                                                continue forNum;
+                                            }
+                                        } else if (n == 28) {// 佣金合计
+                                            try {
+                                                tabScheduleOfInsuranceTrue.setTabCommissionAmount(BigDecimal.valueOf(Double.parseDouble(temp2)));
+                                                datadao.addObject(tabScheduleOfInsuranceTrue);
+//                                                result.append("添加成功！对应的行数：第" + (m + 1) + "行。<br/>");
+                                                successNum++;
+                                            } catch (NumberFormatException e) {
+                                                e.printStackTrace();
+                                                result.append("第\" + (m + 1) + \"行，第\" + (n + 1) + \"列: '" + temp2 + "' 佣金合计格式错误！<br/>");
+                                                sbStr.append((m + 1) + ",");
+                                                continue forNum;
+                                            }
+                                        }
+                                    }
+                                }
+                                String failRowStr = sbStr.toString().trim();
+                                result.append("'" + sheetName + "'：");
+                                result.append("添加成功的行数：" + successNum + "<br/>");
+                                if (!"".equals(failRowStr)) {// 存在添加失败的记录
+                                    result.append("添加失败的行：" + failRowStr.substring(0, failRowStr.length() - 1) + "<br/>");
+//                                    logger.info("添加失败的行数：" + failRowStr);
+                                }
+                            }
+                        } else {
+                            result.append("只有一行！！即没有数据<br/>");
+                        }
+                    } else {// 行列都为0，没有数据
+                        result.append("'" + sheetName + "' 为空！<br/>");
+                    }
+                } else if (rowCount > 0 && columnCount > 0) {// 列数不是29列，不符合要求
+                    result.append("'" + sheetName + "' 列数不是29列，不符合格式！<br/>");
+                }
+            }
+            workbook.close();// 关闭
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString().trim();
     }
 
     /***
@@ -482,7 +659,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 StringBuffer sbStr = new StringBuffer();
                 Sheet sheet = workbook.getSheet(k);
                 String sheetName = sheet.getName().toString().trim();// sheet名称
-                result.append("第" + (k + 1) + "个Sheet名：" + sheetName + "<br/>");
+                result.append("第" + (k + 1) + "个Sheet名：" + sheetName + "。");
                 int rowCount = sheet.getRows();// 行
                 int columnCount = sheet.getColumns();// 列
                 result.append("行数：" + rowCount + "，列数：" + columnCount + "<br/>");
@@ -500,7 +677,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                 sb2.append(temp1);
                                 sb2.append(",");
                             }
-                            result.append("第一行:" + sb2.toString() + "<br/>");
+//                            result.append("第一行:" + sb2.toString() + "<br/>");
                             if (!headerStr.equals(sb2.toString().trim())) {// 没有按照给定的规格来
                                 result.append("'" + sheetName + "' 第一行标题栏，不符合格式！<br/>");
                                 break;
@@ -518,6 +695,9 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                     tabScheduleOfInsuranceTrue.setTabUserId(userId);
                                     tabScheduleOfInsuranceTrue.setTabWriteDate(new Timestamp(System.currentTimeMillis()));
                                     tabScheduleOfInsuranceTrue.setTabIsAuditing("待提交");
+                                    tabScheduleOfInsuranceTrue.setTabIsCommit("未提交");
+                                    tabScheduleOfInsuranceTrue.setTabBusinessID(System.currentTimeMillis() + "");
+                                    tabScheduleOfInsuranceTrue.setTabCdPerson(name);
                                     for (int n = 0; n < columnCount; n++) {// 循环列
                                         String temp2 = "";// 存放内容
                                         cell = sheet.getCell(n, m);
@@ -691,7 +871,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                                 sbStr.append((m + 1) + ",");
                                                 continue forNum;
                                             } else {
-                                                tabScheduleOfInsuranceTrue.setTabCdPerson(temp2);
+                                                tabScheduleOfInsuranceTrue.setTabManagerUser(temp2);
                                             }
                                         } else if (n == 19) {// 维护人
                                             if (temp2.equals("")) {
@@ -715,7 +895,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                         } else if (n == 22) {// 交强费用率
                                             try {
                                                 Double aDouble = new Double(temp2.substring(0, temp2.indexOf("%")));
-                                                tabScheduleOfInsuranceTrue.setTabJqfyl(BigDecimal.valueOf(aDouble / 100));
+                                                tabScheduleOfInsuranceTrue.setTabJqfyl(BigDecimal.valueOf(aDouble));
                                             } catch (NumberFormatException e) {
                                                 e.printStackTrace();
                                                 result.append("第" + (m + 1) + "行，第" + (n + 1) + "列: '" + temp2 + "' 交强费用率格式错误！<br/>");
@@ -743,7 +923,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                         } else if (n == 25) {// 商业费用率
                                             try {
                                                 Double aDouble = new Double(temp2.substring(0, temp2.indexOf("%")));
-                                                tabScheduleOfInsuranceTrue.setTabSyfyl(BigDecimal.valueOf(aDouble / 100));
+                                                tabScheduleOfInsuranceTrue.setTabSyfyl(BigDecimal.valueOf(aDouble));
                                             } catch (NumberFormatException e) {
                                                 e.printStackTrace();
                                                 result.append("第" + (m + 1) + "行，第" + (n + 1) + "列: '" + temp2 + "' 商业费用率格式错误！<br/>");
@@ -774,7 +954,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                                     datadao.addObject(tabInsurer);
                                                 }
                                                 datadao.addObject(tabScheduleOfInsuranceTrue);
-                                                result.append("添加成功！对应的行数：第" + (m + 1) + "行。<br/>");
+//                                                result.append("添加成功！对应的行数：第" + (m + 1) + "行。<br/>");
                                                 successNum++;
                                             } catch (NumberFormatException e) {
                                                 e.printStackTrace();
@@ -789,7 +969,7 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                                 result.append("'" + sheetName + "'：");
                                 result.append("添加成功的行数：" + successNum + "<br/>");
                                 if (!"".equals(failRowStr)) {// 存在添加失败的记录
-                                    result.append("添加失败的行数：" + failRowStr.substring(0, failRowStr.length() - 1) + "<br/>");
+                                    result.append("添加失败的行：" + failRowStr.substring(0, failRowStr.length() - 1) + "<br/>");
 //                                    logger.info("添加失败的行数：" + failRowStr);
                                 }
                             }
@@ -881,6 +1061,11 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 list.add("tabIsCommit");
                 listValues.add(String.valueOf(si.getTabIsCommit()));
             }
+            if (si.getTabBusinessID() != null) {
+                sql.append(" and  tab_businessID =:tabBusinessID ");
+                list.add("tabBusinessID");
+                listValues.add(String.valueOf(si.getTabBusinessID()));
+            }
             if (si.getTabCarNum() != null) {
                 sql.append(" and   tab_car_num=:tabCarNum");
                 list.add("tabCarNum");
@@ -925,6 +1110,11 @@ public class ScheduleOfInsuranceTrueServicempl implements ScheduleOfInsuranceTru
                 sql.append(" and  tab_cd_person=:TabCdPerson");
                 list.add("TabCdPerson");
                 listValues.add(String.valueOf(si.getTabCdPerson()));
+            }
+            if (si.getTabSafePerson() != null) {
+                sql.append(" and  tab_safe_person=:tabSafePerson");
+                list.add("tabSafePerson");
+                listValues.add(String.valueOf(si.getTabSafePerson()));
             }
             if (si.getTabWhPerson() != null) {
                 sql.append(" and  tab_manager_user=:TabWhPerson");
